@@ -1,0 +1,1 @@
+console.log(chalk.blue('Happy Cooking !!'));
