@@ -4,14 +4,15 @@
   "description": "Transparent React Apps",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "./recipes/slim/index.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/web-slate/react-chef.git"
   },
   "keywords": [
-    "react", "boiler-plate"
+    "react",
+    "boiler-plate"
   ],
   "author": "Venkatraman <ramsunvtech@gmail.com> (https://in.linkedin.com/in/venkatarchitect)",
   "license": "ISC",
@@ -20,6 +21,11 @@
   },
   "homepage": "https://github.com/web-slate/react-chef#readme",
   "bin": {
-    "react-chef": "./cli.js"
+    "react-chef": "./recipes/slim"
+  },
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "commander": "^7.1.0",
+    "inquirer": "^8.0.0"
   }
 }
