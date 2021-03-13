@@ -4,7 +4,7 @@
   "description": "Transparent React Apps",
   "main": "index.js",
   "scripts": {
-    "start": "./recipes/slim/index.js"
+    "start": "node ./recipes/slim/index.js"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,7 @@
   "dependencies": {
     "chalk": "^4.1.0",
     "commander": "^7.1.0",
-    "inquirer": "^8.0.0"
+    "inquirer": "^8.0.0",
+    "shelljs": "^0.8.4"
   }
 }
