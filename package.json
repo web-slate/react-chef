@@ -1,0 +1,22 @@
+{
+  "name": "react-chef",
+  "version": "0.0.1",
+  "description": "Transparent React Apps",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/web-slate/react-chef.git"
+  },
+  "keywords": [
+    "boiler-plate"
+  ],
+  "author": "Venkat.R",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/web-slate/react-chef/issues"
+  },
+  "homepage": "https://github.com/web-slate/react-chef#readme"
+}
