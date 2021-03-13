@@ -11,12 +11,15 @@
     "url": "git+https://github.com/web-slate/react-chef.git"
   },
   "keywords": [
-    "boiler-plate"
+    "react", "boiler-plate"
   ],
   "author": "Venkatraman <ramsunvtech@gmail.com> (https://in.linkedin.com/in/venkatarchitect)",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/web-slate/react-chef/issues"
   },
-  "homepage": "https://github.com/web-slate/react-chef#readme"
+  "homepage": "https://github.com/web-slate/react-chef#readme",
+  "bin": {
+    "react-chef": "./cli.js"
+  }
 }
