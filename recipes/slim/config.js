@@ -22,8 +22,8 @@ const getConfig = () => {
       locales: "translations",
     },
     modules: {
-      signIn: "signIn",
-      dashboard: "dashboard",
+      signIn: "SignIn",
+      dashboard: "Dashboard",
     },
   };
 };
