@@ -6,7 +6,7 @@ const fs = require("fs");
 const shell = require("shelljs");
 
 const { getConfig, getModulesList, getDevModulesList } = require("./config");
-const { getFileContent, getWebPackConfig } = require("./snippets");
+const { getFileContent, getWebPackConfig, getDynamicSourceCode } = require("./snippets");
 const moduleMatrix = require('../moduleMatrix')
 const log = console.log;
 
@@ -47,8 +47,7 @@ const tryAccess = (accessPath) => {
   })
 }
 
-const createFile = (fileName, content) => {
-  const fileNameWithPath = `${baseDirPath}/${fileName}`;
+const createFile = (fileNameWithPath, content) => {
   shell.touch(fileNameWithPath);
   shell.ShellString(`${content}`).to(fileNameWithPath);
 }
@@ -70,33 +69,53 @@ const moduleSetInstall = async (option = '', moduleListArray = []) => {
   })
 }
 
+const baseConfig = getConfig()
+
 tryAccess(baseDirPath)
   .then(() => {
     shell.mkdir(baseDirPath)
+    shell.cd(appName)
 
-    const babelConfigFileName = '.babelrc';
+    const babelConfigFileName = `.babelrc`
     createFile(babelConfigFileName, getFileContent(babelConfigFileName))
 
-    createFile('webpack.config.js', getWebPackConfig(appName, getConfig()))
+    createFile('webpack.config.js', getWebPackConfig(appName, baseConfig))
 
-    const eslintConfigFileName = '.eslintrc.json';
+    const eslintConfigFileName = `.eslintrc.json`
     createFile(eslintConfigFileName, getFileContent(eslintConfigFileName))
 
-    const prettierConfigFileName = '.prettierrc.json';
+    const prettierConfigFileName = `.prettierrc.json`
     createFile(prettierConfigFileName, getFileContent(prettierConfigFileName))
 
     return shell.which('npm')
   })
   .then(() => {
-    shell.cd(appName)
     return shell.exec('npm init -y')
   })
   .then(() => {
-    log('Installing App dependencies...')
-    moduleSetInstall('-S', getModulesList())
+    // log('Installing App dependencies...')
+    // moduleSetInstall('-S', getModulesList())
 
-    log('Installing App dev dependencies...')
-    moduleSetInstall('-D', getDevModulesList())
+    // log('Installing App dev dependencies...')
+    // moduleSetInstall('-D', getDevModulesList())
+
+    shell.mkdir(baseConfig.sourceDir.main)
+    shell.cd(baseConfig.sourceDir.main)
+
+    const indexFile = 'index.js'
+    createFile(indexFile, getDynamicSourceCode(indexFile, appName, baseConfig))
+
+    const AppFile = 'App.js'
+    createFile(AppFile, getDynamicSourceCode(AppFile, appName, baseConfig))
+
+    const RoutesFile = 'Routes.js'
+    createFile(RoutesFile, getDynamicSourceCode(RoutesFile, appName, baseConfig))
+
+    // Copy Utils.
+    shell.cp('-Rf', `${__dirname}/snippets/sources/utils`, '.')
+
+    // Copy Static.
+    shell.cp('-Rf', `${__dirname}/snippets/sources/static`, '.')
   })
   .catch((e) => {
     error('Error occurred: ', e);
