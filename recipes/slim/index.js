@@ -93,12 +93,6 @@ tryAccess(baseDirPath)
     return shell.exec('npm init -y')
   })
   .then(() => {
-    // log('Installing App dependencies...')
-    // moduleSetInstall('-S', getModulesList())
-
-    // log('Installing App dev dependencies...')
-    // moduleSetInstall('-D', getDevModulesList())
-
     shell.mkdir(baseConfig.sourceDir.main)
     shell.cd(baseConfig.sourceDir.main)
 
@@ -111,11 +105,70 @@ tryAccess(baseDirPath)
     const RoutesFile = 'Routes.js'
     createFile(RoutesFile, getDynamicSourceCode(RoutesFile, appName, baseConfig))
 
+    const sourceSnippetDir = `${__dirname}/snippets/sources`
+
     // Copy Utils.
-    shell.cp('-Rf', `${__dirname}/snippets/sources/utils`, '.')
+    shell.cp('-Rf', `${sourceSnippetDir}/utils`, '.')
 
     // Copy Static.
-    shell.cp('-Rf', `${__dirname}/snippets/sources/static`, '.')
+    shell.cp('-Rf', `${sourceSnippetDir}/static`, '.')
+
+    // Copy i18n.
+    shell.cp('-Rf', `${sourceSnippetDir}/i18n`, '.')
+
+    shell.cd(baseConfig.sourceDir.i18n)
+    const withI18n = `withI18n.js`
+    createFile(withI18n, getDynamicSourceCode(withI18n, appName, baseConfig))
+
+    // Copy Modules.
+    shell.cd('..')
+    shell.cp('-Rf', `${sourceSnippetDir}/modules`, '.')
+
+    shell.cd(`${baseConfig.sourceDir.containers}/${baseConfig.modules.signIn}`)
+    const signInModule = 'SignIn.js'
+    createFile(signInModule, getDynamicSourceCode(signInModule, appName, baseConfig))
+
+    shell.cd(`../${baseConfig.modules.dashboard}`)
+    const dashboardModule = 'Dashboard.js'
+    createFile(dashboardModule, getDynamicSourceCode(dashboardModule, appName, baseConfig))
+
+    // Copy Components.
+    shell.cd('../../')
+    shell.cp('-Rf', `${sourceSnippetDir}/components`, '.')
+
+    const pageLoader = 'PageLoader'
+    shell.cd(`${baseConfig.sourceDir.components}/${baseConfig.sourceDir.businessLogic}/Loader/${pageLoader}`)
+    const pageLoaderBlock = `${pageLoader}.js`
+    createFile(pageLoaderBlock, getDynamicSourceCode(pageLoaderBlock, appName, baseConfig))
+
+    const sidebar = 'Sidebar'
+    shell.cd(`../../Region/${sidebar}`)
+    const sidebarBlock = `${sidebar}.js`
+    createFile(sidebarBlock, getDynamicSourceCode(sidebarBlock, appName, baseConfig))
+
+    const topBar = 'TopBar'
+    shell.cd(`../../Region/${topBar}`)
+    const topBarBlock = `${topBar}.js`
+    createFile(topBarBlock, getDynamicSourceCode(topBarBlock, appName, baseConfig))
+
+    log('Installing App dependencies...')
+    moduleSetInstall('-S', getModulesList())
+
+    log('Installing App dev dependencies...')
+    moduleSetInstall('-D', getDevModulesList())
+
+    shell.cd('../../../../../')
+    const packageFileContent = shell.cat('package.json')
+    const packageFileObject = JSON.parse(packageFileContent);
+    packageFileObject.scripts = {
+      "dev": "webpack serve --mode development",
+      "lint": "eslint src --ext .js",
+      "build": "webpack --mode production --progress",
+      "prettier": "prettier --write src",
+      "clean": "rm -rf node_modules"
+    }
+    shell.rm('package.json')
+    createFile('package.json', JSON.stringify(packageFileObject, null, 2))
   })
   .catch((e) => {
     error('Error occurred: ', e);
