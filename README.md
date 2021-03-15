@@ -5,7 +5,7 @@ Transparent React Boilerplate App. soon with more Recipes !!
 npx react-chef your-project-name
 
 ## Step 2: Change generate directory
-## cd your-project-name
+cd your-project-name
 
 ## Step 3: Run the app. cool !
-## npm run dev
+npm run dev
