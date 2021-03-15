@@ -1,11 +1,8 @@
 {
   "name": "react-chef",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Transparent React Apps",
   "main": "index.js",
-  "scripts": {
-    "start": "node ./recipes/slim/index.js"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/web-slate/react-chef.git"
@@ -21,7 +18,7 @@
   },
   "homepage": "https://github.com/web-slate/react-chef#readme",
   "bin": {
-    "react-chef": "./recipes/slim"
+    "react-chef": "./recipes/slim/index.js"
   },
   "dependencies": {
     "chalk": "^4.1.0",
