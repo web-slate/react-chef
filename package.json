@@ -7,6 +7,10 @@
     "type": "git",
     "url": "git+https://github.com/web-slate/react-chef.git"
   },
+  "engine": {
+    "node": "12",
+    "npm": "6"
+  },
   "keywords": [
     "react",
     "boiler-plate"
