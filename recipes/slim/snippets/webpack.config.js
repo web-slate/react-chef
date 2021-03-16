@@ -54,7 +54,6 @@ module.exports = {
         "${sourceDir.components}",
         "${sourceDir.businessLogic}"
       ),
-      "@${appName}/${sourceDir.services}": path.resolve(__dirname, "${sourceDir.main}", "${sourceDir.services}"),
       "@${appName}/${sourceDir.utility}": path.resolve(__dirname, "${sourceDir.main}", "${sourceDir.utility}"),
     },
   },
