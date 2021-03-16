@@ -29,6 +29,11 @@ program.parse(process.argv);
 
 // Create App Directory.
 const appName = program.args[0];
+
+if (!appName) {
+  error('Error occurred: App name is mandatory to create your react dish!');
+}
+
 const baseDirPath = `./${appName}`;
 
 const tryAccess = (accessPath) => {
