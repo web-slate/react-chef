@@ -32,8 +32,7 @@ const getModulesList = () => {
   return [
     "react",
     "router",
-    "utils",
-    "form",
+    "utils"
   ];
 };
 
@@ -42,9 +41,7 @@ const getDevModulesList = () => {
     "webpack",
     "webpackPlugins",
     "webpackLoaders",
-    "babel",
-    "eslint",
-    "prettier",
+    "babel"
   ];
 };
 
