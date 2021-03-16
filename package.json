@@ -1,6 +1,6 @@
 {
   "name": "react-chef",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Transparent React Boilerplate Apps",
   "main": "index.js",
   "repository": {
@@ -8,8 +8,8 @@
     "url": "git+https://github.com/web-slate/react-chef.git"
   },
   "engine": {
-    "node": "12",
-    "npm": "6"
+    "node": "10",
+    "npm": "5"
   },
   "keywords": [
     "react",
