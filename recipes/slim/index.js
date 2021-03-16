@@ -1,6 +1,7 @@
 #! /usr/bin/env node
 
 const program = require("commander");
+const inquirer = require('inquirer');
 const chalk = require("chalk");
 const fs = require("fs");
 const shell = require("shelljs");
@@ -31,7 +32,7 @@ program.parse(process.argv);
 const appName = program.args[0];
 
 if (!appName) {
-  error('Error occurred: App name is mandatory to create your react dish!');
+  error('App name is mandatory to create your react dish!');
 }
 
 const baseDirPath = `./${appName}`;
@@ -65,10 +66,10 @@ const moduleSetInstall = async (option = '', moduleListArray = []) => {
   moduleListArray.forEach(moduleSet => {
     const moduleList = moduleMatrix[moduleSet]
     if (Array.isArray(moduleList)) {
-      log(`Installing ${moduleList.join(', ')} modules`)
+      log(chalk.green.underline.bold(`Installing ${moduleList.join(', ')} modules`))
       shell.exec(`npm i ${option} ${moduleList.join(' ')}`)
     } else {
-      log(`execute ${moduleList} modules`)
+      log(chalk.green.underline.bold(`execute ${moduleList} modules`))
       shell.exec(`${moduleList}`)
     }
   })
@@ -78,26 +79,59 @@ const baseConfig = getConfig()
 
 tryAccess(baseDirPath)
   .then(() => {
+    return shell.which('npm')
+  })
+  .then(() => {
     shell.mkdir(baseDirPath)
     shell.cd(appName)
 
+    return shell.exec('npm init -y', { silent: true })
+  })
+  .then(() => {
     const babelConfigFileName = `.babelrc`
     createFile(babelConfigFileName, getFileContent(babelConfigFileName))
 
     createFile('webpack.config.js', getWebPackConfig(appName, baseConfig))
 
-    const eslintConfigFileName = `.eslintrc.json`
-    createFile(eslintConfigFileName, getFileContent(eslintConfigFileName))
-
-    const prettierConfigFileName = `.prettierrc.json`
-    createFile(prettierConfigFileName, getFileContent(prettierConfigFileName))
-
-    return shell.which('npm')
+    return inquirer
+    .prompt([
+      {
+        type: 'confirm',
+        name: 'eslint',
+        message: 'do you want to add eslint?',
+        default: true
+      },
+      {
+        type: 'confirm',
+        name: 'prettier',
+        message: 'do you want to add prettier?',
+        default: false
+      },
+      {
+        type: 'confirm',
+        name: 'husky',
+        message: 'do you want to add husky which enables linting and prettier on pre-commit hook?',
+        default: false
+      },
+      {
+        type: 'confirm',
+        name: 'hookForm',
+        message: 'do you want to add react-hook-form?',
+        default: false
+      }
+    ])
   })
-  .then(() => {
-    return shell.exec('npm init -y')
-  })
-  .then(() => {
+  .then((answers) => {
+    if (answers.eslint) {
+      const eslintConfigFileName = `.eslintrc.json`
+      createFile(eslintConfigFileName, getFileContent(eslintConfigFileName))
+    }
+
+    if (answers.prettier) {
+      const prettierConfigFileName = `.prettierrc.json`
+      createFile(prettierConfigFileName, getFileContent(prettierConfigFileName))
+    }
+
     shell.mkdir(baseConfig.sourceDir.main)
     shell.cd(baseConfig.sourceDir.main)
 
@@ -156,25 +190,40 @@ tryAccess(baseDirPath)
     const topBarBlock = `${topBar}.js`
     createFile(topBarBlock, getDynamicSourceCode(topBarBlock, appName, baseConfig))
 
-    log('Installing App dependencies...')
-    moduleSetInstall('-S', getModulesList())
+    log(chalk.green.underline.bold('Installing App dependencies...'))
+    const dependencyList = [
+      ...getModulesList(),
+      ...(answers.hookForm ? ['form'] : []),
+    ]
+    moduleSetInstall('-S', dependencyList)
 
-    log('Installing App dev dependencies...')
-    moduleSetInstall('-D', getDevModulesList())
+    log(chalk.green.underline.bold('Installing App dev dependencies...'))
+    const devDependencyList = [
+      ...getDevModulesList(),
+      ...(answers.eslint ? ['eslint'] : []),
+      ...(answers.prettier ? ['prettier'] : []),
+      ...(answers.husky ? ['husky'] : []),
+    ]
+    moduleSetInstall('-D', devDependencyList)
 
     shell.cd('../../../../../')
     const packageFileContent = shell.cat('package.json')
     const packageFileObject = JSON.parse(packageFileContent);
     packageFileObject.scripts = {
       "dev": "webpack serve --mode development",
-      "lint": "eslint src --ext .js",
       "build": "webpack --mode production --progress",
-      "prettier": "prettier --write src",
+      ...(answers.eslint ? {
+        "lint": "eslint src --ext .js"
+      } : {}),
+      ...(answers.prettier ? {
+        "prettier": "prettier --write src",
+      } : {}),
       "clean": "rm -rf node_modules"
     }
+    delete packageFileObject.main
     shell.rm('package.json')
     createFile('package.json', JSON.stringify(packageFileObject, null, 2))
   })
   .catch((e) => {
-    error('Error occurred: ', e);
+    error(e, true);
   })
