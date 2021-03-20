@@ -1,4 +1,4 @@
-function getWebPackConfig(appName, { sourceDir, buildDir }) {
+function getWebPackConfig(appName, { sourceDir, buildDir, portNumber }) {
   return `
 const webpack = require("webpack");
 const path = require("path");
@@ -34,7 +34,6 @@ module.exports = {
   resolve: {
     extensions: ["*", ".js"],
     alias: {
-      "@${appName}/${sourceDir.i18n}": path.resolve(__dirname, "${sourceDir.main}", "${sourceDir.i18n}"),
       "@${appName}/${sourceDir.images}": path.resolve(
         __dirname,
         "${sourceDir.main}",
@@ -42,19 +41,11 @@ module.exports = {
         "${sourceDir.assets}",
         "${sourceDir.images}"
       ),
-      "@${appName}/${sourceDir.userInterface}": path.resolve(
+      "@${appName}/${sourceDir.components}": path.resolve(
         __dirname,
         "${sourceDir.main}",
-        "${sourceDir.components}",
-        "${sourceDir.userInterface}"
+        "${sourceDir.components}"
       ),
-      "@${appName}/${sourceDir.businessLogic}": path.resolve(
-        __dirname,
-        "${sourceDir.main}",
-        "${sourceDir.components}",
-        "${sourceDir.businessLogic}"
-      ),
-      "@${appName}/${sourceDir.utility}": path.resolve(__dirname, "${sourceDir.main}", "${sourceDir.utility}"),
     },
   },
   output: {
@@ -81,10 +72,6 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         { from: "./${sourceDir.main}/${sourceDir.static}/${sourceDir.images}", to: "images" },
-        {
-          from: "./${sourceDir.main}/${sourceDir.static}/${sourceDir.locales}/en.json",
-          to: "${sourceDir.locales}/en.json",
-        },
       ],
     }),
   ],
@@ -92,6 +79,7 @@ module.exports = {
     historyApiFallback: true,
     contentBase: "./${sourceDir.main}/${sourceDir.static}",
     hot: true,
+    port: ${portNumber},
     proxy: {
       "/api": "http://YOUR_API_URL:9000",
     },

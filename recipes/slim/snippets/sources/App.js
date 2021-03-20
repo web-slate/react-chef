@@ -1,31 +1,20 @@
 function getSourceCode(appName, { sourceDir }) {
 return `import React from 'react'
-import { BrowserRouter as Router } from 'react-router-dom'
-import { createBrowserHistory } from 'history'
 
-import Routes from './Routes'
-
-// Block Components.
-import { ErrorHandler, PageLoader } from '@${appName}/${sourceDir.businessLogic}'
-
-import { withTranslation } from '@${appName}/${sourceDir.i18n}'
-
-const browserHistory = createBrowserHistory()
+// Components.
+import { ErrorHandler } from '@${appName}/${sourceDir.components}'
 
 function App() {
   return (
     <>
       <ErrorHandler>
-        <PageLoader />
-        <Router history={browserHistory}>
-          <Routes />
-        </Router>
+        <h1>Welcome to Slim App</h1>
       </ErrorHandler>
     </>
   )
 }
 
-export default withTranslation(App)
+export default App
 `
 }
 
