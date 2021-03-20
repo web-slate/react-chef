@@ -6,6 +6,14 @@ const moduleMatrix = require("./moduleMatrix");
 
 const log = console.log;
 
+const multiLineLog = (lines= []) => {
+  let allLines ="";
+  for(const line of lines){
+      allLines += `${" ".repeat(line.noOfSpacesInFront)}${line.content}${"\n".repeat(line.noOfTrailingLines)}`
+  }
+  log(allLines);
+};
+
 const error = (msg, canExit = true) => {
   console.error(chalk.white.bgRed(`Error: ${msg}`));
   canExit && process.exit();
@@ -54,6 +62,7 @@ const moduleSetInstall = async (option = '', moduleListArray = []) => {
 
 module.exports = {
   log,
+  multiLineLog,
   error,
   warn,
   createFile,
