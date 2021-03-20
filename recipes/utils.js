@@ -29,9 +29,6 @@ const tryAccess = (accessPath) => {
       if (isGivenPathNotExist) {
         resolve()
       } else {
-        console.error(
-          `Sorry, unable to access the path: ${accessPath} which is already exist`
-        );
         reject()
       }
     })
