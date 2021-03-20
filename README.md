@@ -1,8 +1,12 @@
-# [React Chef](https://github.com/web-slate/react-chef) &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg) [![npm version](https://img.shields.io/npm/v/react.svg?style=flat)](https://www.npmjs.com/package/react-chef)
+<p align="center">
+    <img height="240" width="235" src="react-chef.svg">
+</p>
 
-React-Chef beta is a Node Module helps you to create instant boiler plate, prescribing best practices and tools to help you stay productive and Transparent React Boilerplate App.
+# ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg) [![npm version](https://img.shields.io/npm/v/react.svg?style=flat)](https://www.npmjs.com/package/react-chef)
 
-This Module aims to help developer to save time in basic test setup once and yet to support for existing spec files.
+React-Chef is a Node Module helps you to create react boiler plate apps instantly, prescribing best practices and tools to help you stay productive and mainly transparent React Boilerplate App.
+
+This Module aims to helps developer to create react app instantly.
 
 ## Installation
 
