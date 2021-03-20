@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/web-slate/react-chef#readme",
   "bin": {
-    "react-chef": "./recipes/slim/index.js"
+    "react-chef": "./recipes/index.js"
   },
   "dependencies": {
     "chalk": "^4.1.0",
