@@ -1,1 +1,1 @@
-console.log(chalk.blue('Happy Cooking !!'));
+console.log('Happy Cooking Boiler plates !!');
