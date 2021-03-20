@@ -12,6 +12,7 @@ const basicSnippet = require(`./basic/snippets`)
 
 const {
   log,
+  multiLineLog,
   error,
   createFile,
   tryAccess,
@@ -27,13 +28,23 @@ const appName = program.args[0]
 
 if (!appName) {
   console.error('Please specify the app name:')
-  // multiline erro - do not change the indentation
-  log(`${chalk.cyan('npx react-chef')} ${chalk.green('<app-name>')}
-
-For example:
-${chalk.cyan('npx react-chef')} ${chalk.green('my-app-name')}
-`)
-  error('`App name` missing')
+  multiLineLog([{
+    content: `${chalk.cyan('react-chef')} ${chalk.green('<app-name>')}`,
+    noOfSpaces: 0,
+    noOfTrailingLines: 2
+    },
+    {
+        content: "For example:",
+        noOfSpaces: 0,
+        noOfTrailingLines: 1
+    },
+    {
+        content: `${chalk.cyan('npx react-chef')} ${chalk.green('my-app-name')}`,
+        noOfSpaces: 0,
+        noOfTrailingLines: 1
+    }
+  ])
+  error("App name is missing")
 }
 let getConfig = slimConfig.getConfig
 let getModulesList = slimConfig.getModulesList
