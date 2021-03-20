@@ -37,25 +37,32 @@ let getDynamicSourceCode = slimSnippet.getDynamicSourceCode;
 let baseConfig = getConfig();
 
 const baseDirPath = `./${appName}`;
-const defaultProjectType = "slim";
+const defaultProjectType = 'slim';
 let projectType = defaultProjectType;
 const isSlimProject = (type) => type === defaultProjectType;
 
-inquirer
-  .prompt([
-    {
-      type: "list",
-      name: "projectType",
-      message: "choose your project type",
-      choices: ["Slim", "Basic"],
-      default: "Slim",
-    },
-  ])
+tryAccess(baseDirPath)
+  .then(() => {}, function onPathExist() {
+    error(
+      `Choose different App name. ${appName} is already exist in ${process.cwd()}`
+    );
+  })
+  .then(() => {
+    return inquirer.prompt([
+      {
+        type: "list",
+        name: "projectType",
+        message: "choose your project type",
+        choices: ["Slim", "Basic"],
+        default: "Slim",
+      },
+    ]);
+  })
   .then((mainAnswer) => {
     projectType = mainAnswer.projectType.toLowerCase();
-    log(`projectType: ${projectType}`)
+    log(`projectType: ${projectType}`);
     if (!isSlimProject(projectType)) {
-      log(`not slim - projectType: ${projectType}`)
+      log(`not slim - projectType: ${projectType}`);
       getConfig = basicConfig.getConfig;
       getModulesList = basicConfig.getModulesList;
       getDevModulesList = basicConfig.getDevModulesList;
@@ -64,8 +71,6 @@ inquirer
       getDynamicSourceCode = basicSnippet.getDynamicSourceCode;
       baseConfig = getConfig();
     }
-
-    return tryAccess(baseDirPath);
   })
   .then(() => {
     return shell.which("npm");
