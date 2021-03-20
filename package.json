@@ -1,8 +1,11 @@
 {
   "name": "react-chef",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Transparent React Boilerplate Apps",
   "main": "index.js",
+  "scripts": {
+    "start": "node ./recipes/index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/web-slate/react-chef.git"
