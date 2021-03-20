@@ -8,7 +8,7 @@ function App() {
   return (
     <>
       <ErrorHandler>
-        <h1>Welcome to Slim App</h1>
+        <h1>Welcome to React Chef Slim App</h1>
       </ErrorHandler>
     </>
   )
