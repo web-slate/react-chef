@@ -12,6 +12,7 @@ const basicSnippet = require(`./basic/snippets`);
 
 const {
   log,
+  multiLineLog,
   error,
   createFile,
   tryAccess,
@@ -26,7 +27,21 @@ program.parse(process.argv);
 const appName = program.args[0];
 
 if (!appName) {
-  error("App name is mandatory to create your boiler plate");
+  console.error('Please specify the app name:')
+  multiLineLog([{
+    content: `${chalk.cyan('react-chef')} ${chalk.green('<app-name>')}`,
+    trailingNewLines: 2
+    },
+    {
+      content: "For example:",
+      trailingNewLines: 1
+    },
+    {
+      content: `${chalk.cyan('npx react-chef')} ${chalk.green('your-app-name')}`,
+      trailingNewLines: 1
+    }
+  ])
+  error("App name is missing")
 }
 let getConfig = slimConfig.getConfig;
 let getModulesList = slimConfig.getModulesList;
