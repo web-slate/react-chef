@@ -1,0 +1,24 @@
+const react = ['react', 'react-dom', 'prop-types']
+const webpack = ['webpack', 'webpack-cli', 'webpack-dev-server']
+const webpackPlugins = ['html-webpack-plugin', 'copy-webpack-plugin']
+const webpackLoaders = ['@svgr/webpack', 'babel-loader', 'file-loader']
+const babel = ['@babel/core', '@babel/preset-env', '@babel/preset-react']
+
+module.exports = {
+  react: [...react],
+  reactWithI18n: [...react, 'react-intl'],
+  router: ['react-router-dom', 'history'],
+  utils: ['axios', 'lodash'],
+  redux: ['redux', 'react-redux'],
+  form: ['react-hook-form', '@hookform/resolvers', 'yup'],
+  materialUi: ['@material-ui/core', '@material-ui/icons', '@material-ui/styles'],
+  reactLib: ['react-content-loader'],
+  webpack,
+  webpackPlugins,
+  webpackLoaders,
+  babel,
+  slimDev: [...webpack, ...webpackPlugins, ...webpackLoaders, ...babel],
+  husky: 'npm i -D husky',
+  eslint: 'npx install-peerdeps --dev eslint-config-airbnb',
+  prettier: 'npm install --save-dev --save-exact prettier && npm i -D eslint-config-prettier'
+}
