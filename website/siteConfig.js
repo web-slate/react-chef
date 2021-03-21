@@ -24,7 +24,7 @@ const siteConfig = {
   title: 'React Chef', // Title for your website.
   tagline: 'React Boiler Plate pps instantly',
   url: 'https://web-slate.github.io', // Your website URL
-  baseUrl: '/react-chef', // Base URL for your project */
+  baseUrl: '/react-chef/', // Base URL for your project */
   // For github.io type URLs, you would set the url and baseUrl like:
   //   url: 'https://facebook.github.io',
   //   baseUrl: '/test-site/',
