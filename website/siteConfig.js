@@ -22,7 +22,7 @@ const users = [
 
 const siteConfig = {
   title: 'React Chef', // Title for your website.
-  tagline: 'React Boiler Plate pps instantly',
+  tagline: 'React Boiler Plate Apps Instantly',
   url: 'https://web-slate.github.io', // Your website URL
   baseUrl: '/react-chef/', // Base URL for your project */
   // For github.io type URLs, you would set the url and baseUrl like:
