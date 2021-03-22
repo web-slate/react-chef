@@ -284,8 +284,10 @@ tryAccess(baseDirPath)
     moduleSetInstall("-D", devDependencyList);
 
     shell.cd("..");
-    const packageFileContent = shell.cat("package.json");
-    const packageFileObject = JSON.parse(packageFileContent);
+    const packageFileContent = shell.cat("package.json")
+    const packageFileObject = JSON.parse(packageFileContent)
+    packageFileObject.main = `${baseConfig.sourceDir.main}/index.js`
+    packageFileObject.private = true
     packageFileObject.scripts = {
       dev: "webpack serve --mode development",
       build: "webpack --mode production --progress",
