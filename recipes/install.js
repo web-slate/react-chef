@@ -1,49 +1,22 @@
 #! /usr/bin/env node
+const inquirer = require("inquirer");
+const chalk = require("chalk");
+const shell = require("shelljs");
 
-module.exports = function(){
-  const program = require("commander");
-  const inquirer = require("inquirer");
-  const chalk = require("chalk");
-  const shell = require("shelljs");
+const slimConfig = require("./slim/config");
+const slimSnippet = require("./slim/snippets");
+const basicConfig = require(`./basic/config`);
+const basicSnippet = require(`./basic/snippets`);
 
-  const slimConfig = require("./slim/config");
-  const slimSnippet = require("./slim/snippets");
-  const basicConfig = require(`./basic/config`);
-  const basicSnippet = require(`./basic/snippets`);
+const {
+  log,
+  error,
+  createFile,
+  tryAccess,
+  moduleSetInstall,
+} = require("./utils");
 
-  const {
-    log,
-    multiLineLog,
-    error,
-    createFile,
-    tryAccess,
-    moduleSetInstall,
-  } = require("./utils");
-
-  program.option("-f, --app-name <value>", "App Name");
-
-  program.parse(process.argv);
-
-  // Create App Directory.
-  const appName = program.args[0];
-
-  if (!appName) {
-    console.error('Please specify the app name:')
-    multiLineLog([{
-      content: `${chalk.cyan('react-chef')} ${chalk.green('<app-name>')}`,
-      trailingNewLines: 2
-      },
-      {
-        content: "For example:",
-        trailingNewLines: 1
-      },
-      {
-        content: `${chalk.cyan('npx react-chef')} ${chalk.green('your-app-name')}`,
-        trailingNewLines: 1
-      }
-    ])
-    error("App name is missing")
-  }
+const install = function(appName){
   let getConfig = slimConfig.getConfig;
   let getModulesList = slimConfig.getModulesList;
   let getDevModulesList = slimConfig.getDevModulesList;
@@ -312,3 +285,5 @@ module.exports = function(){
       error(e, true);
     });
 }
+
+module.exports = install;
