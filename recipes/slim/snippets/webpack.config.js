@@ -76,6 +76,7 @@ module.exports = {
     }),
   ],
   devServer: {
+    open: true,
     historyApiFallback: true,
     contentBase: "./${sourceDir.main}/${sourceDir.static}",
     hot: true,
