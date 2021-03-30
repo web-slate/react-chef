@@ -14,21 +14,24 @@ program.parse(process.argv);
 const appName = program.args[0];
 
 if (!appName) {
-  console.error('Please specify the app name:')
-  multiLineLog([{
-    content: `${chalk.cyan('react-chef')} ${chalk.green('<app-name>')}`,
-    trailingNewLines: 2
+  console.error("Please specify the app name:");
+  multiLineLog([
+    {
+      content: `${chalk.cyan("react-chef")} ${chalk.green("<app-name>")}`,
+      trailingNewLines: 2,
     },
     {
       content: "For example:",
-      trailingNewLines: 1
+      trailingNewLines: 1,
     },
     {
-      content: `${chalk.cyan('npx react-chef')} ${chalk.green('your-app-name')}`,
-      trailingNewLines: 1
-    }
-  ])
-  error("App name is missing")
+      content: `${chalk.cyan("npx react-chef")} ${chalk.green(
+        "your-app-name"
+      )}`,
+      trailingNewLines: 1,
+    },
+  ]);
+  error("App name is missing");
 }
 
 install(appName);
