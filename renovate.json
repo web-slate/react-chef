@@ -1,0 +1,28 @@
+{
+  "extends": ["config:base"],
+  "automerge": false,
+  "pinVersions": false,
+  "prCreation": "immediate",
+  "rollbackPrs": true,
+  "updateLockFiles": true,
+  "ignoreUnstable": true,
+  "rebaseStalePrs": true,
+  "major": {
+    "automerge": false
+  },
+  "devDependencies": {
+    "automerge": false,
+    "pinVersions": false
+  },
+  "packageRules": [
+    {
+      "packageNames": ["Node"],
+      "enabled": false
+    }
+  ],
+  "labels": ["renovate", "dependency"],
+  "vulnerabilityAlerts": {
+    "labels": ["renovate", "dependency", "security"],
+    "prPriority": 100
+  }
+}
