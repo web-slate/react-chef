@@ -3,12 +3,107 @@ id: basic
 title: Basic Package
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ac euismod odio, eu consequat dui. Nullam molestie consectetur risus id imperdiet. Proin sodales ornare turpis, non mollis massa ultricies id. Nam at nibh scelerisque, feugiat ante non, dapibus tortor. Vivamus volutpat diam quis tellus elementum bibendum. Praesent semper gravida velit quis aliquam. Etiam in cursus neque. Nam lectus ligula, malesuada et mauris a, bibendum faucibus mi. Phasellus ut interdum felis. Phasellus in odio pulvinar, porttitor urna eget, fringilla lectus. Aliquam sollicitudin est eros. Mauris consectetur quam vitae mauris interdum hendrerit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+**Description**:
 
-Duis et egestas libero, imperdiet faucibus ipsum. Sed posuere eget urna vel feugiat. Vivamus a arcu sagittis, fermentum urna dapibus, congue lectus. Fusce vulputate porttitor nisl, ac cursus elit volutpat vitae. Nullam vitae ipsum egestas, convallis quam non, porta nibh. Morbi gravida erat nec neque bibendum, eu pellentesque velit posuere. Fusce aliquam erat eu massa eleifend tristique.
+- Create react basic package with simple steps.
 
-Sed consequat sollicitudin ipsum eget tempus. Integer a aliquet velit. In justo nibh, pellentesque non suscipit eget, gravida vel lacus. Donec odio ante, malesuada in massa quis, pharetra tristique ligula. Donec eros est, tristique eget finibus quis, semper non nisl. Vivamus et elit nec enim ornare placerat. Sed posuere odio a elit cursus sagittis.
+1. npx react-chef sample (Project Name)
+2. choose your project type (Basic)
 
-Phasellus feugiat purus eu tortor ultrices finibus. Ut libero nibh, lobortis et libero nec, dapibus posuere eros. Sed sagittis euismod justo at consectetur. Nulla finibus libero placerat, cursus sapien at, eleifend ligula. Vivamus elit nisl, hendrerit ac nibh eu, ultrices tempus dui. Nam tellus neque, commodo non rhoncus eu, gravida in risus. Nullam id iaculis tortor.
+   - Slim
+   - Basic
 
-Nullam at odio in sem varius tempor sit amet vel lorem. Etiam eu hendrerit nisl. Fusce nibh mauris, vulputate sit amet ex vitae, congue rhoncus nisl. Sed eget tellus purus. Nullam tempus commodo erat ut tristique. Cras accumsan massa sit amet justo consequat eleifend. Integer scelerisque vitae tellus id consectetur.
+3. choose your port number
+
+   - 3000
+   - 4000
+   - 5000
+   - 6000
+   - 7000
+
+4. do you want to add eslint? (Y/n)
+5. do you want to add prettier? (y/N)
+6. do you want to add husky which enables linting and prettier on pre-commit hook? (y/N)
+7. do you want to add react-hook-form? (y/N)
+8. run the app in development mode
+   - npm run dev
+
+**Project Structure**
+
+```
+sample
+├── node_modules
+├── package.json
+├── .eslintrc.json
+├── .prettierrc.json
+├── .babelrc
+├──  webpack.config.js
+└── src
+    ├── components
+        ├── blocks
+            ├── ErrorHandler
+                ├── ErrorHandler.js
+                ├── index.js
+            ├── Loader
+                ├── PageLoader
+                    ├── PageLoader.js
+                    ├── index.js
+                ├── index.js
+            ├── Region
+                ├── Footer
+                    ├── Footer.js
+                    ├── index.js
+                ├── Sidebar
+                    ├── SidebarNav
+                        ├── SidebarNav.js
+                        ├── index.js
+                    ├── index.js
+                ├── TopBar
+                    ├── TobBar.js
+                    ├── index.js
+            ├── index.js
+        ├── widgets
+            ├── Fields
+                ├── InputTextField
+                    ├── InputTextField.js
+                    ├── index.js
+                ├── index.js
+            ├── Loader
+                ├── BlockLoader
+                    ├── BlockLoader.js
+                    ├── index.js
+                ├── Spinner
+                    ├── Spinner.js
+                    ├── index.js
+                ├── index.js
+            ├── index.js
+    ├── i18n
+        ├── withI18n.js
+        ├── index.js
+    ├── modules
+        ├── Dashboard
+            ├── Dashboard.js
+            ├── index.js
+        ├── NotFound
+            ├── NotFound.js
+            ├── index.js
+        ├── SignIn
+            ├── SignIn.js
+            ├── index.js
+        ├── index.js
+    ├── static
+       ├── images
+       ├── translations
+       ├── index.html
+    ├── utils
+        ├── RoutePaths.js
+        ├── index.js
+    ├── App.js
+    ├── index.js
+```
+
+### `npm run build`
+
+Run the app in production mode
+
+- npm run build
