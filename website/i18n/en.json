@@ -16,7 +16,7 @@
       },
       "index": {
         "title": "React Chef",
-        "sidebar_label": "Example Page"
+        "sidebar_label": "Quick start"
       },
       "slim": {
         "title": "Slim Package"
@@ -29,7 +29,7 @@
       "Blog": "Blog"
     },
     "categories": {
-      "Docusaurus": "Docusaurus",
+      "React Chef": "React Chef",
       "Slim": "Slim",
       "Basic": "Basic",
       "First Category": "First Category"
