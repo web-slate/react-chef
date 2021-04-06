@@ -1,7 +1,7 @@
 ---
 id: index
 title: React Chef
-sidebar_label: Example Page
+sidebar_label: Quick start
 ---
 
 ## Installation
