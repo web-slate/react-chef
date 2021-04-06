@@ -6,7 +6,7 @@
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://web-slate.github.io/blog"/>
     <subtitle>The best place to stay up-to-date with the latest React Chef news and events.</subtitle>
-    <logo>https://web-slate.github.io/img/react-chef.svg</logo>
+    <logo>https://web-slate.github.io/img/react-chef.ico</logo>
     <rights>Copyright © 2021 React Chef</rights>
     <entry>
         <title type="html"><![CDATA[New Version 1.0.0]]></title>

@@ -9,7 +9,7 @@
         <generator>https://github.com/jpmonette/feed</generator>
         <image>
             <title>React Chef Blog</title>
-            <url>https://web-slate.github.io/img/react-chef.svg</url>
+            <url>https://web-slate.github.io/img/react-chef.ico</url>
             <link>https://web-slate.github.io/blog</link>
         </image>
         <copyright>Copyright © 2021 React Chef</copyright>
