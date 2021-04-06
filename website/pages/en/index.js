@@ -150,13 +150,13 @@ class Index extends React.Component {
         {[
           {
             content: 'Slim package requires requires only the App name which creates react project instantly.',
-            image: `${baseUrl}img/undraw_react.svg`,
+            image: `${baseUrl}img/react-chef.svg`,
             imageAlign: 'top',
             title: 'Slim Package',
           },
           {
             content: 'Basic package ask many questions like ESLint, Prettier,  only the app name which creates react project instantly.',
-            image: `${baseUrl}img/undraw_operating_system.svg`,
+            image: `${baseUrl}img/react-chef.svg`,
             imageAlign: 'top',
             title: 'Basic Package',
           },
