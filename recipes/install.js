@@ -17,7 +17,7 @@ const {
   moduleSetInstall,
 } = require("./utils");
 
-const install = function(appName) {
+const install = function(appName,directory) {
   CFonts.say("React Chef", {
     type: 5,
     font: "block", // define the font face
@@ -49,9 +49,12 @@ const install = function(appName) {
 
   tryAccess(baseDirPath)
     .then(() => {}, function onPathExist() {
-      error(
-        `Choose different App name. ${appName} is already exist in ${process.cwd()}`
-      );
+      if(directory === undefined){
+        error(
+          `Choose different App name. ${appName} is already exist in ${process.cwd()}`
+        );
+      }
+      return true;
     })
     .then(() => {
       return inquirer.prompt([
@@ -132,8 +135,12 @@ const install = function(appName) {
       return inquirer.prompt(projectQuestions);
     })
     .then((answers) => {
-      shell.mkdir(baseDirPath);
-      shell.cd(appName);
+      if(directory === undefined) {
+        shell.mkdir(baseDirPath);
+        shell.cd(appName);
+      } else {
+        shell.cd(directory);
+      }
       shell.exec("npm init -y", { silent: true });
 
       return answers;
