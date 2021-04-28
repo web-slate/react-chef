@@ -49,7 +49,7 @@ const install = function(appName,directory) {
 
   tryAccess(baseDirPath)
     .then(() => {}, function onPathExist() {
-      if(directory === undefined){
+      if(!directory){
         error(
           `Choose different App name. ${appName} is already exist in ${process.cwd()}`
         );
@@ -135,7 +135,7 @@ const install = function(appName,directory) {
       return inquirer.prompt(projectQuestions);
     })
     .then((answers) => {
-      if(directory === undefined) {
+      if(!directory) {
         shell.mkdir(baseDirPath);
         shell.cd(appName);
       } else {
