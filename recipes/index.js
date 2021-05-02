@@ -7,11 +7,11 @@ const {
 } = require("./utils");
 const install = require('./install');
 
-program.option("-f, --app-name <value>", "App Name");
-program.parse(process.argv);
+program.option("-d, --directory <value>", "Use directory");
+program.parse();
 
-//pre install check
 const appName = program.args[0];
+const directory = program.opts().directory;
 
 if (!appName) {
   console.error("Please specify the app name:");
@@ -34,4 +34,4 @@ if (!appName) {
   error("App name is missing");
 }
 
-install(appName);
+install(appName,directory);
