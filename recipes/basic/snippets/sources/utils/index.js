@@ -1,1 +1,1 @@
-export { default as RoutePaths } from './RoutePaths'
+export { default as RoutePaths } from './route-paths'
