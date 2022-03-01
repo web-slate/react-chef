@@ -17,7 +17,7 @@ const {
   moduleSetInstall,
 } = require("./utils");
 
-const install = function(appName,directory) {
+const install = function(directory, appName = '') {
   CFonts.say("React Chef", {
     type: 5,
     font: "block", // define the font face
@@ -48,7 +48,7 @@ const install = function(appName,directory) {
   const isSlimProject = (type) => type === defaultProjectType;
 
   tryAccess(baseDirPath)
-    .then(() => {}, function onPathExist() {
+    .then(() => undefined, function onPathExist() {
       if(!directory){
         error(
           `Choose different App name. ${appName} is already exist in ${process.cwd()}`
@@ -146,6 +146,11 @@ const install = function(appName,directory) {
       return answers;
     })
     .then((answers) => {
+      if (baseConfig.canAdd.gitIgnore) {
+        const gitIgnoreFileName = `git-ignore.txt`;
+        createFile('.gitignore', getFileContent(gitIgnoreFileName));
+      }
+
       const babelConfigFileName = `.babelrc`;
       createFile(babelConfigFileName, getFileContent(babelConfigFileName));
 
@@ -188,6 +193,21 @@ const install = function(appName,directory) {
       }
 
       const sourceSnippetDir = `${__dirname}/${projectType}/snippets/sources`;
+
+      if (baseConfig.canAdd.hooks) {
+        // Copy Hooks.
+        shell.cp("-Rf", `${sourceSnippetDir}/hooks`, ".");
+      }
+
+      if (baseConfig.canAdd.environment) {
+        // Copy Environment.
+        shell.cp("-Rf", `${sourceSnippetDir}/env`, ".");
+      }
+
+      if (baseConfig.canAdd.constants) {
+        // Copy Constants.
+        shell.cp("-Rf", `${sourceSnippetDir}/constants`, ".");
+      }
 
       if (baseConfig.canAdd.utils) {
         // Copy Utils.
