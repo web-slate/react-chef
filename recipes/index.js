@@ -34,4 +34,4 @@ if (!appName) {
   error("App name is missing");
 }
 
-install(appName,directory);
+install(directory, appName);
