@@ -16,6 +16,7 @@ const getDynamicSourceCode = (fileName, appName, baseConfig) => {
   const { getSourceCode } = sourceCodes[fileName]
   return getSourceCode(appName, baseConfig)
 }
+
 module.exports = {
   getFileContent,
   getWebPackConfig,
