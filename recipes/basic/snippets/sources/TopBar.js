@@ -3,7 +3,7 @@ return `import React from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import { I18nMsg } from '@${appName}/${sourceDir.i18n}'
+import { I18nMsg } from '@/${sourceDir.i18n}'
 
 const TopBar = (props) => {
   const { className, ...rest } = props

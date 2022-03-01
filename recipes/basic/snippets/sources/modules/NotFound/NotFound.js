@@ -1,15 +1,18 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+
+// Utils.
+import { RoutePaths } from '@/utils'
 
 const NotFound = (props) => {
-  const { history } = props
+  const navigate = useNavigate();
 
   return (
     <section>
       <div>
         <span></span>
         <h1>404 - Page not found</h1>
-        <Button onClick={() => history.replace('/sign-in')}>Go Back</Button>
+        <button onClick={() => navigate(RoutePaths.SignIn)}>Go Back</button>
       </div>
     </section>
   )

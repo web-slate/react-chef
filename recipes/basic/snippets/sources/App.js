@@ -6,9 +6,9 @@ import { createBrowserHistory } from 'history'
 import Routes from './Routes'
 
 // Block Components.
-import { ErrorHandler, PageLoader } from '@${appName}/${sourceDir.businessLogic}'
+import { ErrorHandler, PageLoader } from '@/${sourceDir.businessLogic}'
 
-import { withTranslation } from '@${appName}/${sourceDir.i18n}'
+import { withTranslation } from '@/${sourceDir.i18n}'
 
 const browserHistory = createBrowserHistory()
 

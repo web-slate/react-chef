@@ -2,7 +2,7 @@ const getConfig = () => {
   return {
     bundler: "webpack",
     ui: "material-ui",
-    state: "redux",
+    state: "none",
     buildDir: "public",
     sourceDir: {
       main: "src",
@@ -13,7 +13,7 @@ const getConfig = () => {
       i18n: "i18n",
       components: "components",
       businessLogic: "blocks",
-      userInterface: "widgets",
+      userInterface: "ui",
       utility: "utils",
       hooks: "hooks",
       theme: "theme",
@@ -24,11 +24,15 @@ const getConfig = () => {
     modules: {
       signIn: "SignIn",
       dashboard: "Dashboard",
+      notFound: "NotFound",
     },
     canAdd: {
+      gitIgnore: true,
       eslint: true,
+      environment: true,
       prettier: true,
       husky: true,
+      hooks: true,
       hookForm: true,
       routes: true,
       utils: true,
@@ -45,6 +49,7 @@ const getModulesList = () => {
   return [
     "reactWithI18n",
     "router",
+    "services",
     "utils"
   ];
 };

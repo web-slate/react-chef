@@ -1,33 +1,38 @@
 function getSourceCode(appName, { sourceDir, modules }) {
 return `import React, { Suspense } from 'react'
-import { Route, Switch, Redirect } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 
 // Block Components.
-import { PageLoader } from '@${appName}/${sourceDir.businessLogic}'
+import { PageLoader } from '@/${sourceDir.businessLogic}'
 
 // Utils.
-import { RoutePaths } from '@${appName}/${sourceDir.utility}'
+import { RoutePaths } from '@/${sourceDir.utility}'
 
 const SignInModule = React.lazy(() =>
   import(/* webpackChunkName: "${sourceDir.containers}/${modules.signIn}" */ './${sourceDir.containers}/${modules.signIn}')
 )
+
 const DashboardModule = React.lazy(() =>
   import(/* webpackChunkName: "${sourceDir.containers}/${modules.dashboard}" */ './${sourceDir.containers}/${modules.dashboard}')
 )
 
-const Routes = () => {
+const NotFoundModule = React.lazy(() =>
+  import(/* webpackChunkName: "${sourceDir.containers}/${modules.notFound}" */ './${sourceDir.containers}/${modules.notFound}')
+)
+
+const RoutesComponent = () => {
   return (
     <Suspense fallback={<PageLoader />}>
-      <Switch>
-        <Route path={RoutePaths.SignIn} exact component={SignInModule} />
-        <Route path={RoutePaths.Dashboard} component={DashboardModule} />
-        <Redirect to={RoutePaths.NotFound} />
-      </Switch>
+      <Routes>
+        <Route path={RoutePaths.SignIn} exact element={SignInModule} />
+        <Route path={RoutePaths.Dashboard} element={DashboardModule} />
+        <Route path="*" element={<NotFoundModule />} />
+      </Routes>
     </Suspense>
   )
 }
 
-export default Routes
+export default RoutesComponent
 `
 }
 

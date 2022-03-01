@@ -1,15 +1,26 @@
 function getSourceCode(appName, { sourceDir }) {
-return `import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+return `import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import { I18nMsg } from '@${appName}/${sourceDir.i18n}'
+import { I18nMsg } from '@/${sourceDir.i18n}'
 
 // Utils.
-import { RoutePaths } from '@${appName}/${sourceDir.utility}'
+import { RoutePaths } from '@/${sourceDir.utility}'
+
+// Service Hooks
+import useFetch from '@/${sourceDir.hooks}/useFetch'
+
+const SAMPLE_GET_API_URL = 'https://jsonplaceholder.typicode.com/users'
 
 const Dashboard = (props) => {
-  let history = useHistory()
+  const navigate = useNavigate()
+
+  const { loading, error, response = [] } = useFetch(SAMPLE_GET_API_URL)
+
+  if (loading) return 'Loading..'
+  if (error) return error.message
+
   return (
     <>
       <section>
@@ -17,9 +28,12 @@ const Dashboard = (props) => {
           <h1>
             <I18nMsg id="dashboard" /> goes here
           </h1>
+          {response.map((user) => {
+            return <li key={user.id}>{user.name}</li>
+          })}
           <button
             onClick={() => {
-              history.push(RoutePaths.SignIn)
+              navigate(RoutePaths.SignIn)
             }}
           >
             Click back
