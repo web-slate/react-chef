@@ -34,27 +34,28 @@ module.exports = {
   resolve: {
     extensions: ["*", ".js"],
     alias: {
-      "@${appName}/${sourceDir.i18n}": path.resolve(__dirname, "${sourceDir.main}", "${sourceDir.i18n}"),
-      "@${appName}/${sourceDir.images}": path.resolve(
+      "@/${sourceDir.i18n}": path.resolve(__dirname, "${sourceDir.main}", "${sourceDir.i18n}"),
+      "@/${sourceDir.images}": path.resolve(
         __dirname,
         "${sourceDir.main}",
         "${sourceDir.static}",
         "${sourceDir.assets}",
         "${sourceDir.images}"
       ),
-      "@${appName}/${sourceDir.userInterface}": path.resolve(
+      "@/${sourceDir.userInterface}": path.resolve(
         __dirname,
         "${sourceDir.main}",
         "${sourceDir.components}",
         "${sourceDir.userInterface}"
       ),
-      "@${appName}/${sourceDir.businessLogic}": path.resolve(
+      "@/${sourceDir.businessLogic}": path.resolve(
         __dirname,
         "${sourceDir.main}",
         "${sourceDir.components}",
         "${sourceDir.businessLogic}"
       ),
-      "@${appName}/${sourceDir.utility}": path.resolve(__dirname, "${sourceDir.main}", "${sourceDir.utility}"),
+      "@/${sourceDir.hooks}": path.resolve(__dirname, "${sourceDir.main}", "${sourceDir.hooks}"),
+      "@/${sourceDir.utility}": path.resolve(__dirname, "${sourceDir.main}", "${sourceDir.utility}"),
     },
   },
   output: {
