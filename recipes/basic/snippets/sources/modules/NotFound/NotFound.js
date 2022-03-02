@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 // Utils.
 import { RoutePaths } from '@/utils'
 
-const NotFound = (props) => {
+const NotFound = () => {
   const navigate = useNavigate();
 
   return (
@@ -18,4 +18,4 @@ const NotFound = (props) => {
   )
 }
 
-export default withRouter(NotFound)
+export default NotFound

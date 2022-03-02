@@ -14,14 +14,12 @@ const browserHistory = createBrowserHistory()
 
 function App() {
   return (
-    <>
       <ErrorHandler>
         <PageLoader />
         <Router history={browserHistory}>
           <Routes />
         </Router>
       </ErrorHandler>
-    </>
   )
 }
 
