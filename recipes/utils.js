@@ -60,6 +60,18 @@ const moduleSetInstall = async (option = '', moduleListArray = []) => {
   })
 }
 
+const isRestrictedAppName = (projectName) => {
+  const modulesList = [];
+  Object.keys(moduleMatrix).forEach(item=>{
+     if(Array.isArray(moduleMatrix[item])){
+      modulesList.push(...moduleMatrix[item])
+     } else {
+      modulesList.push(moduleMatrix[item])
+     }
+  })
+ return modulesList.includes(projectName)
+}
+
 module.exports = {
   log,
   multiLineLog,
@@ -67,5 +79,6 @@ module.exports = {
   warn,
   createFile,
   tryAccess,
-  moduleSetInstall
+  moduleSetInstall,
+  isRestrictedAppName
 };
