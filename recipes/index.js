@@ -4,6 +4,7 @@ const chalk = require("chalk");
 const {
   multiLineLog,
   error,
+  isRestrictedAppName
 } = require("./utils");
 const install = require('./install');
 
@@ -33,5 +34,10 @@ if (!appName) {
   ]);
   error("App name is missing");
 }
+
+if(isRestrictedAppName(appName)){ 
+ error(`App name '${appName}' is restricted. Please choose different app name.`);
+}
+
 
 install(directory, appName);
