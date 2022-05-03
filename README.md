@@ -13,7 +13,7 @@ This Module aims to helps developer to create react app instantly.
 Below is the screen cast to create Slim App in few minutes and expected command line output.
 
 <p align="center">
-    <img height="240" width="235" src="screenshots/slim-app.gif">
+    <img src="screenshots/slim-app.gif">
 </p>
 
 ```
