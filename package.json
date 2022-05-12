@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "cfonts": "^2.9.1",
-    "chalk": "^4.1.0",
+    "chalk": "^5.0.0",
     "commander": "^7.1.0",
     "inquirer": "^8.0.0",
     "shelljs": "^0.8.4"
