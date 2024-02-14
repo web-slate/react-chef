@@ -92,9 +92,7 @@ module.exports = {
     },
     hot: true,
     port: ${portNumber},
-    proxy: {
-      "/api": "http://YOUR_API_URL:9000",
-    },
+    proxy: []
   },
 };    
 `;
