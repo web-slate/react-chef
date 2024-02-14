@@ -9,12 +9,19 @@ const slimSnippet = require("./slim/snippets");
 const basicConfig = require(`./basic/config`);
 const basicSnippet = require(`./basic/snippets`);
 
+//Twixt Config
+const twixtUIConfig = require("./twixt-ui/config");
+const twixtUISnippet = require("./twixt-ui/snippets");
+
 const {
   log,
   error,
   createFile,
   tryAccess,
   moduleSetInstall,
+  getTwixtUIIndexPath,
+  getTwixtUIHomePath,
+  getTwixtUIScripts
 } = require("./utils");
 
 const install = function(directory, appName = '') {
@@ -44,8 +51,10 @@ const install = function(directory, appName = '') {
 
   const baseDirPath = `./${appName}`;
   const defaultProjectType = 'slim';
+  const twixtUIProjectType = 'twixtui';
   let projectType = defaultProjectType;
   const isSlimProject = (type) => type === defaultProjectType;
+  const isTwixtUIProject = (type) => type === twixtUIProjectType;
 
   tryAccess(baseDirPath)
     .then(() => undefined, function onPathExist() {
@@ -62,7 +71,7 @@ const install = function(directory, appName = '') {
           type: "list",
           name: "projectType",
           message: "choose your project type",
-          choices: ["Slim", "Basic"],
+          choices: ["Slim", "Basic", "TwixtUI"],
           default: "Slim",
         },
       ]);
@@ -70,7 +79,19 @@ const install = function(directory, appName = '') {
     .then((mainAnswer) => {
       projectType = mainAnswer.projectType.toLowerCase();
       log(`projectType: ${projectType}`);
-      if (!isSlimProject(projectType)) {
+      if(isTwixtUIProject(projectType)){
+
+        log(`TwixtUI - projectType: ${projectType}`);
+        getConfig = twixtUIConfig.getConfig;
+        getModulesList = twixtUIConfig.getModulesList;
+        getDevModulesList = twixtUIConfig.getDevModulesList;
+        getFileContent = twixtUISnippet.getFileContent;
+        getWebPackConfig = twixtUISnippet.getWebPackConfig;
+        getDynamicSourceCode = twixtUISnippet.getDynamicSourceCode;
+        baseConfig = getConfig();
+
+      } 
+      else if (!isSlimProject(projectType)) {
         log(`not slim - projectType: ${projectType}`);
         getConfig = basicConfig.getConfig;
         getModulesList = basicConfig.getModulesList;
@@ -178,10 +199,12 @@ const install = function(directory, appName = '') {
       shell.mkdir(baseConfig.sourceDir.main);
       shell.cd(baseConfig.sourceDir.main);
 
-      const indexFile = "index.js";
+      const sourceSnippetDir = `${__dirname}/${projectType}/snippets/sources`;
+
+      const indexFile = !isTwixtUIProject(projectType) ? "index.js": getTwixtUIIndexPath(projectType);
       createFile(indexFile, getDynamicSourceCode(indexFile, appName, baseConfig));
 
-      const AppFile = "App.js";
+      const AppFile = !isTwixtUIProject(projectType)? "App.js":  getTwixtUIHomePath(projectType);
       createFile(AppFile, getDynamicSourceCode(AppFile, appName, baseConfig));
 
       if (baseConfig.canAdd.routes) {
@@ -192,7 +215,6 @@ const install = function(directory, appName = '') {
         );
       }
 
-      const sourceSnippetDir = `${__dirname}/${projectType}/snippets/sources`;
 
       if (baseConfig.canAdd.hooks) {
         // Copy Hooks.
@@ -320,6 +342,7 @@ const install = function(directory, appName = '') {
             }
           : {}),
         clean: "rm -rf node_modules",
+        ...(isTwixtUIProject(projectType) ? getTwixtUIScripts(): {})
       };
       delete packageFileObject.main;
       shell.rm("package.json");
