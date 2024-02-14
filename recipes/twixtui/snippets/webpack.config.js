@@ -91,7 +91,10 @@ module.exports = {
       directory: "./${sourceDir.main}/${sourceDir.static}",
     },
     hot: true,
-    port: ${portNumber}
+    port: ${portNumber},
+    proxy: {
+      "/api": "http://YOUR_API_URL:9000",
+    },
   },
 };    
 `;
