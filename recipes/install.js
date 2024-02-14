@@ -10,8 +10,8 @@ const basicConfig = require(`./basic/config`);
 const basicSnippet = require(`./basic/snippets`);
 
 //Twixt Config
-const twixtUIConfig = require("./twixt-ui/config");
-const twixtUISnippet = require("./twixt-ui/snippets");
+const twixtUIConfig = require("./twixtui/config");
+const twixtUISnippet = require("./twixtui/snippets");
 
 const {
   log,
@@ -89,9 +89,7 @@ const install = function(directory, appName = '') {
         getWebPackConfig = twixtUISnippet.getWebPackConfig;
         getDynamicSourceCode = twixtUISnippet.getDynamicSourceCode;
         baseConfig = getConfig();
-
-      } 
-      else if (!isSlimProject(projectType)) {
+      } else if (!isSlimProject(projectType)) {
         log(`not slim - projectType: ${projectType}`);
         getConfig = basicConfig.getConfig;
         getModulesList = basicConfig.getModulesList;
@@ -201,11 +199,13 @@ const install = function(directory, appName = '') {
 
       const sourceSnippetDir = `${__dirname}/${projectType}/snippets/sources`;
 
-      const indexFile = !isTwixtUIProject(projectType) ? "index.js": getTwixtUIIndexPath(projectType);
-      createFile(indexFile, getDynamicSourceCode(indexFile, appName, baseConfig));
+      const indexFile = "index.js";
+      const indexFilePath = !isTwixtUIProject(projectType) ? "index.js": getTwixtUIIndexPath(projectType);
+      createFile(indexFilePath, getDynamicSourceCode(indexFile, appName, baseConfig));
 
-      const AppFile = !isTwixtUIProject(projectType)? "App.js":  getTwixtUIHomePath(projectType);
-      createFile(AppFile, getDynamicSourceCode(AppFile, appName, baseConfig));
+      const AppFile = "App.js";
+      const AppFilePath = !isTwixtUIProject(projectType)? "App.js":  getTwixtUIHomePath(projectType);
+      createFile(AppFilePath, getDynamicSourceCode(AppFile, appName, baseConfig));
 
       if (baseConfig.canAdd.routes) {
         const RoutesFile = "Routes.js";
@@ -213,6 +213,11 @@ const install = function(directory, appName = '') {
           RoutesFile,
           getDynamicSourceCode(RoutesFile, appName, baseConfig)
         );
+      }
+
+      if (baseConfig.canAdd.pages) {
+        // Copy Pages.
+        shell.cp("-Rf", `${sourceSnippetDir}/pages`, ".");
       }
 
 
