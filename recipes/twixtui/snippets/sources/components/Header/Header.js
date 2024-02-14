@@ -7,7 +7,7 @@ export default function Header({ onHamburgerClick }) {
     <TwixtHeader headerClass="bg-blue-300" rightBlock={(
        <LogoutButton />
     )} onHamburgerClick={onHamburgerClick}>
-      <TwixtToolName name="Ecospace" />
+      <TwixtToolName name="App Name" />
     </TwixtHeader>
   );
 }
