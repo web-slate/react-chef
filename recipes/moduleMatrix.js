@@ -3,6 +3,7 @@ const webpack = ['webpack', 'webpack-cli', 'webpack-dev-server']
 const webpackPlugins = ['html-webpack-plugin', 'copy-webpack-plugin']
 const webpackLoaders = ['@svgr/webpack', 'babel-loader', 'file-loader']
 const babel = ['@babel/core', '@babel/preset-env', '@babel/preset-react']
+const wepPackStyleLoaders = ['style-loader', 'css-loader']
 
 module.exports = {
   react: [...react],
@@ -19,6 +20,7 @@ module.exports = {
   webpackLoaders,
   babel,
   slimDev: [...webpack, ...webpackPlugins, ...webpackLoaders, ...babel],
+  twixtUIDev: [...webpack, ...webpackPlugins, ...webpackLoaders, ...wepPackStyleLoaders, ...babel],
   husky: 'npm i -D husky',
   eslint: 'npx install-peerdeps --dev eslint-config-airbnb',
   prettier: 'npm install --save-dev --save-exact prettier && npm i -D eslint-config-prettier'

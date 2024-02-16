@@ -72,6 +72,23 @@ const isRestrictedAppName = (projectName) => {
  return modulesList.includes(projectName)
 }
 
+const getTwixtUIIndexPath = (projectType) =>{
+  return `${__dirname}/${projectType}/snippets/sources/pages/Home/index.js`
+}
+
+const getTwixtUIHomePath = (projectType) =>{
+  return `${__dirname}/${projectType}/snippets/sources/pages/Home/Home.js`
+}
+
+const getTwixtUIScripts = (projectType) =>{
+  return {
+    "init-ui": "git submodule add --force https://github.com/web-slate/TwixtUI.git src/TwixtUI",
+    "clear-ui": "rm -rf src/TwixtUI || true && rm -f .gitmodules",
+    "clear-cache-ui": "git rm --cached client/config/src/TwixtUI -f || true && rm -rf .git/modules/TwixtUI || true",
+    "ui": "npm run clear-ui && npm run init-ui"
+  }
+}
+
 module.exports = {
   log,
   multiLineLog,
@@ -80,5 +97,8 @@ module.exports = {
   createFile,
   tryAccess,
   moduleSetInstall,
-  isRestrictedAppName
+  isRestrictedAppName,
+  getTwixtUIIndexPath,
+  getTwixtUIHomePath,
+  getTwixtUIScripts
 };
