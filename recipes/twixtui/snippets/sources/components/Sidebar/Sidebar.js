@@ -2,8 +2,8 @@ import React from 'react';
 import { LeftSideBar } from 'TwixtUI/react'
 
 const MENUS = [
-  { id: 1, name: 'Add Config', link: '#' },
-  { id: 2, name: 'Manage Config', link: '#' },
+  { id: 1, name: 'Menu 1', link: '#' },
+  { id: 2, name: 'Menu 2', link: '#' },
 ];
 
 export default function Sidebar({ openDrawer, onBlurEvent }) {
