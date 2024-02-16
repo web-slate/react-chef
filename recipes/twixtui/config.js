@@ -21,7 +21,8 @@ const getConfig = () => {
       modules: false,
       componentsCopy: true,
       fullComponents: false,
-      pages: true
+      pages: true,
+      buildDir: true
     },
   };
 };

@@ -58,7 +58,7 @@ module.exports = {
     },
   },
   output: {
-    path: path.resolve(__dirname, '../..', 'public/${appName}'),
+    path: path.resolve(__dirname, "${buildDir}"),
     filename: '[name].bundle.js',
     chunkFilename: "[name].js",
   },

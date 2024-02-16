@@ -114,6 +114,16 @@ const install = function(directory, appName = '') {
         },
       ];
 
+      if(baseConfig.canAdd.buildDir){
+        projectQuestions.push({
+          type: "input",
+          name: "buildDir",
+          message: "Add your build directory",
+          default: baseConfig.buildDir,
+        });
+      }
+
+
       if (baseConfig.canAdd.eslint) {
         projectQuestions.push({
           type: "confirm",
@@ -178,6 +188,7 @@ const install = function(directory, appName = '') {
         getWebPackConfig(appName, {
           ...baseConfig,
           portNumber: answers.portNumber,
+          buildDir: answers.buildDir || baseConfig.buildDir
         })
       );
 
