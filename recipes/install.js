@@ -141,7 +141,6 @@ const install = function(directory, appName = '') {
         });
       }
 
-
       if (baseConfig.canAdd.eslint) {
         projectQuestions.push({
           type: "confirm",
@@ -195,7 +194,7 @@ const install = function(directory, appName = '') {
     .then((answers) => {
       const isTypeScriptProjectType = isTypeScriptProject(projectType);
       const fileExtension = isTypeScriptProjectType ? 'ts' : 'js';
-      const componentExtension = isTypeScriptProjectType ? 'tsx' : 'jsx';
+      const componentExtension = isTypeScriptProjectType ? 'tsx' : 'js';
       if (baseConfig.canAdd.gitIgnore) {
         const gitIgnoreFileName = `git-ignore.txt`;
         createFile('.gitignore', getFileContent(gitIgnoreFileName));
@@ -234,14 +233,16 @@ const install = function(directory, appName = '') {
       shell.mkdir(baseConfig.sourceDir.main);
       shell.cd(baseConfig.sourceDir.main);
 
-      const sourceSnippetDir = `${__dirname}/${projectType}/snippets/sources`;
+      const sourceSubBase = isTypeScriptProjectType ? '_ts/' : '';
+      const projectTypeName = isSlimTypeScriptProject(projectType) ? 'slim' : projectType;
+      const sourceSnippetDir = `${__dirname}/${sourceSubBase}${projectTypeName}/snippets/sources`;
 
-      const indexSourceFileName = 'index.js';
-      const indexFileNameToCreateWithPath = !isTwixtUIProject(projectType) ? `index.${fileExtension}`: getTwixtUIIndexPath(projectType);
+      const indexSourceFileName = `index.js`;
+      const indexFileNameToCreateWithPath = !isTwixtUIProject(projectType) ? `index.${componentExtension}`: getTwixtUIIndexPath(projectType);
       createFile(indexFileNameToCreateWithPath, getDynamicSourceCode(indexSourceFileName, appName, baseConfig));
 
-      const appSourceFileName = 'App.js';
-      const appFileNameToCreateWithPath = !isTwixtUIProject(projectType)? `App.${fileExtension}` :  getTwixtUIHomePath(projectType);
+      const appSourceFileName = `App.js`;
+      const appFileNameToCreateWithPath = !isTwixtUIProject(projectType)? `App.${componentExtension}` :  getTwixtUIHomePath(projectType);
       createFile(appFileNameToCreateWithPath, getDynamicSourceCode(appSourceFileName, appName, baseConfig));
 
       if (baseConfig.canAdd.routes) {
