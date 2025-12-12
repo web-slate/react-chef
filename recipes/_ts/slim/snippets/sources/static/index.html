@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="theme-color" content="#000000" />
+    <meta name="googlebot" content="noindex, noarchive" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="app-version" content="<%= htmlWebpackPlugin.options.APP_VERSION %>" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    />
+
+    <title><%= htmlWebpackPlugin.options.APP_ROOT_ID %></title>
+  </head>
+
+  <body>
+    <noscript> You need to enable JavaScript to run this app. </noscript>
+    <div id="<%= htmlWebpackPlugin.options.APP_ROOT_ID %>"></div>
+  </body>
+</html>
