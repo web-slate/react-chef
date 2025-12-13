@@ -1,7 +1,17 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { HTMLAttributes } from 'react'
 
-const SidebarNav = (props) => {
+interface Page {
+  title: string
+  href?: string
+  icon?: string
+}
+
+interface SidebarNavProps extends HTMLAttributes<HTMLUListElement> {
+  className?: string
+  pages: Page[]
+}
+
+const SidebarNav: React.FC<SidebarNavProps> = (props) => {
   const { pages, className, ...rest } = props
 
   return (
@@ -13,11 +23,6 @@ const SidebarNav = (props) => {
       ))}
     </ul>
   )
-}
-
-SidebarNav.propTypes = {
-  className: PropTypes.string,
-  pages: PropTypes.array.isRequired,
 }
 
 export default SidebarNav

@@ -1,16 +1,16 @@
 function getSourceCode(appName, { sourceDir }) {
 const langUrl = `${sourceDir.locales}/` + '${lang}.json'
 
-return `import React, { useState, useEffect } from 'react'
+return `import React, { useState, useEffect, ComponentType, FC } from 'react'
 import { IntlProvider } from 'react-intl'
 import axios from 'axios'
 
-const fetchTranslations = async (lang) => {
-  return await axios.get(\`${langUrl}\`)
+const fetchTranslations = async (lang: string) => {
+  return await axios.get<Record<string, string>>(\`${langUrl}\`)
 }
 
-const withI18n = (Component) => (props) => {
-  const [messages, setMessages] = useState({})
+const withI18n = <P extends object>(Component: ComponentType<P>): FC<P> => (props: P) => {
+  const [messages, setMessages] = useState<Record<string, string>>({})
   const locale = 'en'
 
   useEffect(() => {

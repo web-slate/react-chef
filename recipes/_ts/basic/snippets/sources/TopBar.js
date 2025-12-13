@@ -1,11 +1,15 @@
 function getSourceCode(appName, { sourceDir }) {
-return `import React from 'react'
+return `import React, { HTMLAttributes } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
-import PropTypes from 'prop-types'
 
 import { I18nMsg } from '@/${sourceDir.i18n}'
 
-const TopBar = (props) => {
+interface TopBarProps extends HTMLAttributes<HTMLElement> {
+  className?: string
+  onSidebarOpen?: () => void
+}
+
+const TopBar: React.FC<TopBarProps> = (props) => {
   const { className, ...rest } = props
 
   return (
@@ -15,11 +19,6 @@ const TopBar = (props) => {
       </RouterLink>
     </header>
   )
-}
-
-TopBar.propTypes = {
-  className: PropTypes.string,
-  onSidebarOpen: PropTypes.func,
 }
 
 export default TopBar

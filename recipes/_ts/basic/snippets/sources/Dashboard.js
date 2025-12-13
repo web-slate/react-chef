@@ -1,7 +1,6 @@
 function getSourceCode(appName, { sourceDir }) {
 return `import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import PropTypes from 'prop-types'
 
 import { I18nMsg } from '@/${sourceDir.i18n}'
 
@@ -13,10 +12,19 @@ import useFetch from '@/${sourceDir.hooks}/useFetch'
 
 const SAMPLE_GET_API_URL = 'https://jsonplaceholder.typicode.com/users'
 
-const Dashboard = (props) => {
+interface DashboardProps {
+  title?: string
+}
+
+interface User {
+  id: number
+  name: string
+}
+
+const Dashboard: React.FC<DashboardProps> = (props) => {
   const navigate = useNavigate()
 
-  const { loading, error, response = [] } = useFetch(SAMPLE_GET_API_URL)
+  const { loading, error, response = [] } = useFetch<User[]>(SAMPLE_GET_API_URL)
 
   if (loading) return 'Loading..'
   if (error) return error.message
@@ -42,10 +50,6 @@ const Dashboard = (props) => {
       </section>
     </>
   )
-}
-
-Dashboard.propTypes = {
-  title: PropTypes.string,
 }
 
 export default Dashboard

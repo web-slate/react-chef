@@ -4,11 +4,16 @@ return `import React, { Fragment } from 'react'
 // UI Components.
 import { Spinner } from '@/components/ui'
 
-export default function PageLoader({ loading }) {
-  // Add your business logic with store condition.
-  return <Fragment>{loading && <Spinner />}</Fragment>
+interface PageLoaderProps {
+  loading: boolean
 }
+
+export default function PageLoader({ loading }: PageLoaderProps) {
+  return loading ? <Spinner /> : null
+}
+
 `
+
 }
 
 module.exports = {

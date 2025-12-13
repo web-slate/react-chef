@@ -1,7 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { HTMLAttributes } from 'react'
 
-const Footer = (props) => {
+interface FooterProps extends HTMLAttributes<HTMLDivElement> {
+  className?: string
+}
+
+const Footer: React.FC<FooterProps> = (props) => {
   const { className, ...rest } = props
 
   return (
@@ -16,10 +19,6 @@ const Footer = (props) => {
       <div>React Chef</div>
     </div>
   )
-}
-
-Footer.propTypes = {
-  className: PropTypes.string,
 }
 
 export default Footer

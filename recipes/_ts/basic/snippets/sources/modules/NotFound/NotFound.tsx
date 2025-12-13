@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom'
 // Utils.
 import { RoutePaths } from '@/utils'
 
-const NotFound = () => {
-  const navigate = useNavigate();
+const NotFound: React.FC = () => {
+  const navigate = useNavigate()
 
   return (
     <section>

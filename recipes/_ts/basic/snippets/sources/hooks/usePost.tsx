@@ -1,24 +1,33 @@
 import { useState } from 'react'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 
-export default function usePost(url, methodName = 'sendPostData'){
-    
-  const [response, setResponse] = useState(undefined)
-  const [error, setError] = useState()
+interface UsePostResult<T, P> {
+  response: T | undefined
+  error: AxiosError | null
+  loading: boolean
+  [key: string]: any
+}
+
+export default function usePost<T = any, P = any>(
+  url: string,
+  methodName: string = 'sendPostData'
+): UsePostResult<T, P> {
+  const [response, setResponse] = useState<T | undefined>(undefined)
+  const [error, setError] = useState<AxiosError | null>(null)
   const [loading, setLoading] = useState(false)
 
- const postData = async (payload) => {
-      if (!url || url.trim() === '') return
-      try {
-        setLoading(true)
-        const result = await axios.post(url, payload)
-        setResponse(result.data)
-      } catch (err) {
-        setError(err)
-      } finally {
-        setLoading(false)
-      }
+  const postData = async (payload: P) => {
+    if (!url || url.trim() === '') return
+    try {
+      setLoading(true)
+      const result = await axios.post<T>(url, payload)
+      setResponse(result.data)
+    } catch (err) {
+      setError(err as AxiosError)
+    } finally {
+      setLoading(false)
+    }
   }
-  
-  return { response, error, loading, [methodName]:postData }
+
+  return { response, error, loading, [methodName]: postData }
 }

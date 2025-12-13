@@ -21,7 +21,7 @@ const NotFoundModule = React.lazy(() =>
   import(/* webpackChunkName: "${modules.notFound}" */ '@/modules/${modules.notFound}')
 )
 
-const RoutesComponent = () => {
+const RoutesComponent: React.FC = () => {
   return (
     <Suspense fallback={<PageLoader />}>
       <Routes>

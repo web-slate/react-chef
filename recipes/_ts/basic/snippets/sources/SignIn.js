@@ -1,7 +1,6 @@
 function getSourceCode(appName, { sourceDir }) {
 return `import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import PropTypes from 'prop-types'
 
 // UI Components.
 import { InputTextField } from '@/components/ui'
@@ -15,13 +14,31 @@ import { RoutePaths } from '@/${sourceDir.utility}'
 // Service Hooks
 import usePost from '@/${sourceDir.hooks}/usePost'
 
+interface SignInProps {
+  title?: string
+}
+
+interface PostData {
+  id: number
+  title: string
+  body: string
+  userId: number
+}
+
+interface PostResponse {
+  id: number
+  title: string
+  body: string
+  userId: number
+}
+
 const SAMPLE_POST_API_URL = 'https://jsonplaceholder.typicode.com/posts'
 
-const SignIn = (props) => {
+const SignIn: React.FC<SignInProps> = (props) => {
   const navigate = useNavigate()
   const { formatMessage } = useI18n()
 
-  const { loading, error, response, sendPostData } = usePost(
+  const { loading, error, response, sendPostData } = usePost<PostResponse, PostData>(
     SAMPLE_POST_API_URL,
     'sendPostData'
   )
@@ -61,12 +78,9 @@ const SignIn = (props) => {
   )
 }
 
-SignIn.propTypes = {
-  title: PropTypes.string,
-}
-
 export default SignIn
 `
+
 }
 
 module.exports = {

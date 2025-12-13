@@ -69,10 +69,8 @@ const install = function (directory, appName = '') {
   const isSlimProject = (type) => type === defaultProjectType;
   const isTwixtUIProject = (type) => type === twixtUIProjectType;
   const isSlimTypeScriptProject = (type) => type === slimTypescriptProjectType;
-  const isTypeScriptProject = (type) => isSlimTypeScriptProject(type);
   const isBasicTypeScriptProject = (type) => type === basicTypescriptProjectType;
-  const is_BasicTypeScriptProject = (type) => isBasicTypeScriptProject(type);
-
+  const isTypeScriptProject = (type) => isSlimTypeScriptProject(type) || isBasicTypeScriptProject(type);
 
   tryAccess(baseDirPath)
     .then(() => undefined, function onPathExist() {
@@ -89,7 +87,7 @@ const install = function (directory, appName = '') {
           type: "list",
           name: "projectType",
           message: "choose your project type",
-          choices: ["Slim", "Slim TypeScript", "Basic", "TwixtUI", "Basic TypeScript"],
+          choices: ["Slim", "Slim TypeScript", "Basic", "Basic TypeScript", "TwixtUI",],
           default: "Slim",
         },
       ]);
@@ -106,7 +104,7 @@ const install = function (directory, appName = '') {
         getWebPackConfig = slimTypeScriptSnippet.getWebPackConfig;
         getDynamicSourceCode = slimTypeScriptSnippet.getDynamicSourceCode;
         baseConfig = getConfig();
-      } else if (is_BasicTypeScriptProject(projectType)) {
+      } else if (isBasicTypeScriptProject(projectType)) {
         log(`Basic TypeScript - projectType: ${projectType}`);
         getConfig = basicTypeScriptConfig.getConfig;
         getModulesList = basicTypeScriptConfig.getModulesList;
@@ -210,9 +208,9 @@ const install = function (directory, appName = '') {
     })
     .then((answers) => {
       const isTypeScriptProjectType = isTypeScriptProject(projectType);
-      const is_BasicTypeScriptProjectType = is_BasicTypeScriptProject(projectType);
+      const is_BasicTypeScriptProjectType = isBasicTypeScriptProject(projectType);
       const fileExtension = isTypeScriptProjectType ? 'ts' : 'js';
-      const componentExtension = (isTypeScriptProjectType || is_BasicTypeScriptProjectType) ? 'tsx' : 'js';
+      const componentExtension = isTypeScriptProjectType ? 'tsx' : 'js';
       if (baseConfig.canAdd.gitIgnore) {
         const gitIgnoreFileName = `git-ignore.txt`;
         createFile('.gitignore', getFileContent(gitIgnoreFileName));
@@ -265,7 +263,7 @@ const install = function (directory, appName = '') {
         projectTypeName = projectType;
       }
 
-      const sourceSubBase = (isTypeScriptProjectType || is_BasicTypeScriptProjectType) ? '_ts/' : '';
+      const sourceSubBase = isTypeScriptProjectType ? '_ts/' : '';
       const sourceSnippetDir = `${__dirname}/${sourceSubBase}${projectTypeName}/snippets/sources`;
 
       const indexSourceFileName = `index.js`;
@@ -277,7 +275,7 @@ const install = function (directory, appName = '') {
       createFile(appFileNameToCreateWithPath, getDynamicSourceCode(appSourceFileName, appName, baseConfig));
 
       if (baseConfig.canAdd.routes) {
-        const RoutesFile = "Routes.js";
+        const RoutesFile = `Routes.${componentExtension}`;
         createFile(
           RoutesFile,
           getDynamicSourceCode(RoutesFile, appName, baseConfig)
@@ -320,7 +318,7 @@ const install = function (directory, appName = '') {
         shell.cp("-Rf", `${sourceSnippetDir}/i18n`, ".");
 
         shell.cd(baseConfig.sourceDir.i18n);
-        const withI18n = `withI18n.js`;
+        const withI18n = `withI18n.${componentExtension}`;
         createFile(withI18n, getDynamicSourceCode(withI18n, appName, baseConfig));
         shell.cd("..");
       }
@@ -332,14 +330,14 @@ const install = function (directory, appName = '') {
         shell.cd(
           `${baseConfig.sourceDir.containers}/${baseConfig.modules.signIn}`
         );
-        const signInModule = "SignIn.js";
+        const signInModule = `SignIn.${componentExtension}`;
         createFile(
           signInModule,
           getDynamicSourceCode(signInModule, appName, baseConfig)
         );
 
         shell.cd(`../${baseConfig.modules.dashboard}`);
-        const dashboardModule = "Dashboard.js";
+        const dashboardModule = `Dashboard.${componentExtension}`;
         createFile(
           dashboardModule,
           getDynamicSourceCode(dashboardModule, appName, baseConfig)
@@ -357,7 +355,7 @@ const install = function (directory, appName = '') {
         shell.cd(
           `${baseConfig.sourceDir.components}/${baseConfig.sourceDir.businessLogic}/Loader/${pageLoader}`
         );
-        const pageLoaderBlock = `${pageLoader}.js`;
+        const pageLoaderBlock = `${pageLoader}.${componentExtension}`;
         createFile(
           pageLoaderBlock,
           getDynamicSourceCode(pageLoaderBlock, appName, baseConfig)
@@ -365,7 +363,7 @@ const install = function (directory, appName = '') {
 
         const sidebar = "Sidebar";
         shell.cd(`../../Region/${sidebar}`);
-        const sidebarBlock = `${sidebar}.js`;
+        const sidebarBlock = `${sidebar}.${componentExtension}`;
         createFile(
           sidebarBlock,
           getDynamicSourceCode(sidebarBlock, appName, baseConfig)
@@ -373,7 +371,7 @@ const install = function (directory, appName = '') {
 
         const topBar = "TopBar";
         shell.cd(`../../Region/${topBar}`);
-        const topBarBlock = `${topBar}.js`;
+        const topBarBlock = `${topBar}.${componentExtension}`;
         createFile(
           topBarBlock,
           getDynamicSourceCode(topBarBlock, appName, baseConfig)

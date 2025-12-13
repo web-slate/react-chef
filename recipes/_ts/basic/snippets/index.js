@@ -11,25 +11,33 @@ const sidebarBlock = require('./sources/Sidebar')
 const topBarBlock = require('./sources/TopBar')
 
 const sourceCodes = {
-  'index.js': rootIndex,
-  'App.js': rootApp,
-  'Routes.js': rootRoutes,
-  'withI18n.js': withI18n,
-  'SignIn.js': signInModule,
-  'Dashboard.js': dashboardModule,
-  'PageLoader.js': pageLoaderBlock,
-  'Sidebar.js': sidebarBlock,
-  'TopBar.js': topBarBlock,
+  index: rootIndex,
+  App: rootApp,
+  Routes: rootRoutes,
+  withI18n: withI18n,
+  SignIn: signInModule,
+  Dashboard: dashboardModule,
+  PageLoader: pageLoaderBlock,
+  Sidebar: sidebarBlock,
+  TopBar: topBarBlock,
 }
+
 
 const getFileContent = (fileName) => {
   return shell.cat(`${__dirname}/${fileName}`)
 }
 
 const getDynamicSourceCode = (fileName, appName, baseConfig) => {
-  const { getSourceCode } = sourceCodes[fileName]
-  return getSourceCode(appName, baseConfig)
+  const key = fileName.replace(/\.(js|ts|tsx)$/, '')
+  const source = sourceCodes[key]
+
+  if (!source) {
+    throw new Error(`Source template not found: ${key}`)
+  }
+
+  return source.getSourceCode(appName, baseConfig)
 }
+
 module.exports = {
   getFileContent,
   getWebPackConfig,

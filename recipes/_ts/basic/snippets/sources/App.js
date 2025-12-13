@@ -1,7 +1,6 @@
-function getSourceCode(appName, { sourceDir }) {
-return `import React from 'react'
+function getSourceCode(appName, { sourceDir }) {return `import React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { createBrowserHistory } from 'history'
+import { createBrowserHistory, History } from 'history'
 
 import Routes from './Routes'
 
@@ -10,16 +9,16 @@ import { ErrorHandler, PageLoader } from './components/blocks'
 
 import { withTranslation } from '@/${sourceDir.i18n}'
 
-const browserHistory = createBrowserHistory()
+const browserHistory: History = createBrowserHistory()
 
-function App() {
+const App: React.FC = () => {
   return (
-      <ErrorHandler>
-        <PageLoader />
-        <Router history={browserHistory}>
-          <Routes />
-        </Router>
-      </ErrorHandler>
+    <ErrorHandler>
+      <PageLoader />
+      <Router history={browserHistory}>
+        <Routes />
+      </Router>
+    </ErrorHandler>
   )
 }
 
