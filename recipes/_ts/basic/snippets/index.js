@@ -20,7 +20,7 @@ const sourceCodes = {
   PageLoader: pageLoaderBlock,
   Sidebar: sidebarBlock,
   TopBar: topBarBlock,
-}
+ }
 
 
 const getFileContent = (fileName) => {

@@ -1,28 +1,32 @@
-function getSourceCode(appName, { sourceDir }) {return `import React from 'react'
-import { BrowserRouter as Router } from 'react-router-dom'
-import { createBrowserHistory, History } from 'history'
+function getSourceCode(appName, { sourceDir }) {
+  return `import React from 'react'
+import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom'
+import { createBrowserHistory } from 'history'
+import { WithTranslation } from 'react-i18next'
 
 import Routes from './Routes'
 
-// Block Components.
+// Block Components
 import { ErrorHandler, PageLoader } from './components/blocks'
 
 import { withTranslation } from '@/${sourceDir.i18n}'
 
-const browserHistory: History = createBrowserHistory()
+const browserHistory = createBrowserHistory()
 
-const App: React.FC = () => {
+interface AppProps extends WithTranslation {}
+
+const App: React.FC<AppProps> = (props) => {
   return (
     <ErrorHandler>
       <PageLoader />
-      <Router history={browserHistory}>
+      <HistoryRouter history={browserHistory}>
         <Routes />
-      </Router>
+      </HistoryRouter>
     </ErrorHandler>
   )
 }
 
-export default withTranslation(App)
+export default withTranslation()(App)
 `
 }
 

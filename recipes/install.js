@@ -208,7 +208,7 @@ const install = function (directory, appName = '') {
     })
     .then((answers) => {
       const isTypeScriptProjectType = isTypeScriptProject(projectType);
-      const is_BasicTypeScriptProjectType = isBasicTypeScriptProject(projectType);
+      const isBasicTypeScriptProjectType = isBasicTypeScriptProject(projectType);
       const fileExtension = isTypeScriptProjectType ? 'ts' : 'js';
       const componentExtension = isTypeScriptProjectType ? 'tsx' : 'js';
       if (baseConfig.canAdd.gitIgnore) {
@@ -223,11 +223,7 @@ const install = function (directory, appName = '') {
         const tsConfigFileName = `tsconfig.json`;
         createFile(tsConfigFileName, getFileContent(tsConfigFileName));
       }
-      if (isTypeScriptProjectType) {
-        const tsConfigFileName = `tsconfig.json`;
-        createFile(tsConfigFileName, getFileContent(tsConfigFileName));
-      }
-
+      
       createFile(
         'webpack.config.js',
         getWebPackConfig(appName, {
@@ -255,7 +251,7 @@ const install = function (directory, appName = '') {
 
 
       let projectTypeName;
-      if (is_BasicTypeScriptProjectType) {
+      if (isBasicTypeScriptProjectType) {
         projectTypeName = 'basic';
       } else if (isSlimTypeScriptProject(projectType)) {
         projectTypeName = 'slim';

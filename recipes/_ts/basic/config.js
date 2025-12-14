@@ -60,8 +60,7 @@ const getDevModulesList = () => {
     "webpackPlugins",
     "webpackLoaders",
     "babel",
-    "basicTypescriptDev"
-    
+    "basicTypescriptDev"    
   ];
 };
 
