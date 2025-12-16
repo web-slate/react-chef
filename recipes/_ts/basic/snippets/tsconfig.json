@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "paths": {
-      "@/ui/*": ["src/ui/*"],
-      "@/blocks/*": ["src/blocks/*"],
-      "@/constants/*": ["src/constants/*"],
-      "@/hooks/*": ["src/hooks/*"],
-      "@/i18n/*": ["src/i18n/*"],
-      "@/modules/*": ["src/modules/*"],
-      "@/utils/*": ["src/utils/*"]
+      "@/ui/*": ["ui/*"],
+      "@components/*": ["components/*"],
+      "@/constants/*": ["constants/*"],
+      "@/hooks/*": ["hooks/*"],
+      "@/i18n/*": ["i18n/*"],
+      "@/modules/*": ["modules/*"],
+      "@/utils/*": ["utils/*"]
     }
   },
   "include": ["src"]

@@ -6,7 +6,7 @@ import { createBrowserHistory, History } from 'history'
 import Routes from './Routes'
 
 // Block Components
-import { ErrorHandler, PageLoader } from './components/blocks'
+import { ErrorHandler, PageLoader } from '@/components/blocks'
 
 import { withTranslation } from '@/${sourceDir.i18n}'
 
@@ -14,7 +14,7 @@ const browserHistory = createBrowserHistory()
 
 interface AppProps extends WithTranslation {}
 
-const App: React.FC<AppProps> = (props) => {
+function App(props: AppProps) {
   return (
     <ErrorHandler>
       <PageLoader />
@@ -26,6 +26,7 @@ const App: React.FC<AppProps> = (props) => {
 }
 
 export default withTranslation(App)
+
 `
 }
 
