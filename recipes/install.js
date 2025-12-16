@@ -12,6 +12,10 @@ const slimSnippet = require("./slim/snippets");
 const slimTypeScriptConfig = require("./_ts/slim/config");
 const slimTypeScriptSnippet = require("./_ts/slim/snippets");
 
+// basic Typescript Version
+const basicTypeScriptConfig = require("./_ts/basic/config");
+const basicTypeScriptSnippet = require("./_ts/basic/snippets");
+
 // Basic Javascript
 const basicConfig = require(`./basic/config`);
 const basicSnippet = require(`./basic/snippets`);
@@ -31,7 +35,7 @@ const {
   getTwixtUIScripts
 } = require("./utils");
 
-const install = function(directory, appName = '') {
+const install = function (directory, appName = '') {
   CFonts.say("React Chef", {
     type: 5,
     font: "block", // define the font face
@@ -60,15 +64,17 @@ const install = function(directory, appName = '') {
   const defaultProjectType = 'slim';
   const twixtUIProjectType = 'twixtui';
   const slimTypescriptProjectType = 'slim typescript';
+  const basicTypescriptProjectType = 'basic typescript';
   let projectType = defaultProjectType;
   const isSlimProject = (type) => type === defaultProjectType;
   const isTwixtUIProject = (type) => type === twixtUIProjectType;
   const isSlimTypeScriptProject = (type) => type === slimTypescriptProjectType;
-  const isTypeScriptProject = (type) => isSlimTypeScriptProject(type);
+  const isBasicTypeScriptProject = (type) => type === basicTypescriptProjectType;
+  const isTypeScriptProject = (type) => isSlimTypeScriptProject(type) || isBasicTypeScriptProject(type);
 
   tryAccess(baseDirPath)
     .then(() => undefined, function onPathExist() {
-      if(!directory){
+      if (!directory) {
         error(
           `Choose different App name. ${appName} is already exist in ${process.cwd()}`
         );
@@ -81,7 +87,7 @@ const install = function(directory, appName = '') {
           type: "list",
           name: "projectType",
           message: "choose your project type",
-          choices: ["Slim", "Slim TypeScript", "Basic", "TwixtUI"],
+          choices: ["Slim", "Slim TypeScript", "Basic", "Basic TypeScript", "TwixtUI",],
           default: "Slim",
         },
       ]);
@@ -89,7 +95,7 @@ const install = function(directory, appName = '') {
     .then((mainAnswer) => {
       projectType = mainAnswer.projectType.toLowerCase();
       log(`projectType: ${projectType}`);
-      if(isSlimTypeScriptProject(projectType)){
+      if (isSlimTypeScriptProject(projectType)) {
         log(`Slim Typescript - projectType: ${projectType}`);
         getConfig = slimTypeScriptConfig.getConfig;
         getModulesList = slimTypeScriptConfig.getModulesList;
@@ -98,7 +104,16 @@ const install = function(directory, appName = '') {
         getWebPackConfig = slimTypeScriptSnippet.getWebPackConfig;
         getDynamicSourceCode = slimTypeScriptSnippet.getDynamicSourceCode;
         baseConfig = getConfig();
-      } else if(isTwixtUIProject(projectType)){
+      } else if (isBasicTypeScriptProject(projectType)) {
+        log(`Basic TypeScript - projectType: ${projectType}`);
+        getConfig = basicTypeScriptConfig.getConfig;
+        getModulesList = basicTypeScriptConfig.getModulesList;
+        getDevModulesList = basicTypeScriptConfig.getDevModulesList;
+        getFileContent = basicTypeScriptSnippet.getFileContent;
+        getWebPackConfig = basicTypeScriptSnippet.getWebPackConfig;
+        getDynamicSourceCode = basicTypeScriptSnippet.getDynamicSourceCode;
+        baseConfig = getConfig();
+      } else if (isTwixtUIProject(projectType)) {
         log(`TwixtUI - projectType: ${projectType}`);
         getConfig = twixtUIConfig.getConfig;
         getModulesList = twixtUIConfig.getModulesList;
@@ -132,7 +147,7 @@ const install = function(directory, appName = '') {
         },
       ];
 
-      if(baseConfig.canAdd.buildDir){
+      if (baseConfig.canAdd.buildDir) {
         projectQuestions.push({
           type: "input",
           name: "buildDir",
@@ -181,7 +196,7 @@ const install = function(directory, appName = '') {
       return inquirer.prompt(projectQuestions);
     })
     .then((answers) => {
-      if(!directory) {
+      if (!directory) {
         shell.mkdir(baseDirPath);
         shell.cd(appName);
       } else {
@@ -193,6 +208,7 @@ const install = function(directory, appName = '') {
     })
     .then((answers) => {
       const isTypeScriptProjectType = isTypeScriptProject(projectType);
+      const isBasicTypeScriptProjectType = isBasicTypeScriptProject(projectType);
       const fileExtension = isTypeScriptProjectType ? 'ts' : 'js';
       const componentExtension = isTypeScriptProjectType ? 'tsx' : 'js';
       if (baseConfig.canAdd.gitIgnore) {
@@ -207,7 +223,7 @@ const install = function(directory, appName = '') {
         const tsConfigFileName = `tsconfig.json`;
         createFile(tsConfigFileName, getFileContent(tsConfigFileName));
       }
-
+      
       createFile(
         'webpack.config.js',
         getWebPackConfig(appName, {
@@ -233,20 +249,29 @@ const install = function(directory, appName = '') {
       shell.mkdir(baseConfig.sourceDir.main);
       shell.cd(baseConfig.sourceDir.main);
 
+
+      let projectTypeName;
+      if (isBasicTypeScriptProjectType) {
+        projectTypeName = 'basic';
+      } else if (isSlimTypeScriptProject(projectType)) {
+        projectTypeName = 'slim';
+      } else {
+        projectTypeName = projectType;
+      }
+
       const sourceSubBase = isTypeScriptProjectType ? '_ts/' : '';
-      const projectTypeName = isSlimTypeScriptProject(projectType) ? 'slim' : projectType;
       const sourceSnippetDir = `${__dirname}/${sourceSubBase}${projectTypeName}/snippets/sources`;
 
       const indexSourceFileName = `index.js`;
-      const indexFileNameToCreateWithPath = !isTwixtUIProject(projectType) ? `index.${componentExtension}`: getTwixtUIIndexPath(projectType);
+      const indexFileNameToCreateWithPath = !isTwixtUIProject(projectType) ? `index.${componentExtension}` : getTwixtUIIndexPath(projectType);
       createFile(indexFileNameToCreateWithPath, getDynamicSourceCode(indexSourceFileName, appName, baseConfig));
 
       const appSourceFileName = `App.js`;
-      const appFileNameToCreateWithPath = !isTwixtUIProject(projectType)? `App.${componentExtension}` :  getTwixtUIHomePath(projectType);
+      const appFileNameToCreateWithPath = !isTwixtUIProject(projectType) ? `App.${componentExtension}` : getTwixtUIHomePath(projectType);
       createFile(appFileNameToCreateWithPath, getDynamicSourceCode(appSourceFileName, appName, baseConfig));
 
       if (baseConfig.canAdd.routes) {
-        const RoutesFile = "Routes.js";
+        const RoutesFile = `Routes.${componentExtension}`;
         createFile(
           RoutesFile,
           getDynamicSourceCode(RoutesFile, appName, baseConfig)
@@ -289,7 +314,7 @@ const install = function(directory, appName = '') {
         shell.cp("-Rf", `${sourceSnippetDir}/i18n`, ".");
 
         shell.cd(baseConfig.sourceDir.i18n);
-        const withI18n = `withI18n.js`;
+        const withI18n = `withI18n.${componentExtension}`;
         createFile(withI18n, getDynamicSourceCode(withI18n, appName, baseConfig));
         shell.cd("..");
       }
@@ -301,14 +326,14 @@ const install = function(directory, appName = '') {
         shell.cd(
           `${baseConfig.sourceDir.containers}/${baseConfig.modules.signIn}`
         );
-        const signInModule = "SignIn.js";
+        const signInModule = `SignIn.${componentExtension}`;
         createFile(
           signInModule,
           getDynamicSourceCode(signInModule, appName, baseConfig)
         );
 
         shell.cd(`../${baseConfig.modules.dashboard}`);
-        const dashboardModule = "Dashboard.js";
+        const dashboardModule = `Dashboard.${componentExtension}`;
         createFile(
           dashboardModule,
           getDynamicSourceCode(dashboardModule, appName, baseConfig)
@@ -326,7 +351,7 @@ const install = function(directory, appName = '') {
         shell.cd(
           `${baseConfig.sourceDir.components}/${baseConfig.sourceDir.businessLogic}/Loader/${pageLoader}`
         );
-        const pageLoaderBlock = `${pageLoader}.js`;
+        const pageLoaderBlock = `${pageLoader}.${componentExtension}`;
         createFile(
           pageLoaderBlock,
           getDynamicSourceCode(pageLoaderBlock, appName, baseConfig)
@@ -334,7 +359,7 @@ const install = function(directory, appName = '') {
 
         const sidebar = "Sidebar";
         shell.cd(`../../Region/${sidebar}`);
-        const sidebarBlock = `${sidebar}.js`;
+        const sidebarBlock = `${sidebar}.${componentExtension}`;
         createFile(
           sidebarBlock,
           getDynamicSourceCode(sidebarBlock, appName, baseConfig)
@@ -342,7 +367,7 @@ const install = function(directory, appName = '') {
 
         const topBar = "TopBar";
         shell.cd(`../../Region/${topBar}`);
-        const topBarBlock = `${topBar}.js`;
+        const topBarBlock = `${topBar}.${componentExtension}`;
         createFile(
           topBarBlock,
           getDynamicSourceCode(topBarBlock, appName, baseConfig)
@@ -376,16 +401,16 @@ const install = function(directory, appName = '') {
         build: "webpack --mode production --progress",
         ...(answers.eslint
           ? {
-              lint: "eslint src --ext .js",
-            }
+            lint: "eslint src --ext .js",
+          }
           : {}),
         ...(answers.prettier
           ? {
-              prettier: "prettier --write src",
-            }
+            prettier: "prettier --write src",
+          }
           : {}),
         clean: "rm -rf node_modules",
-        ...(isTwixtUIProject(projectType) ? getTwixtUIScripts(): {})
+        ...(isTwixtUIProject(projectType) ? getTwixtUIScripts() : {})
       };
       delete packageFileObject.main;
       shell.rm("package.json");
