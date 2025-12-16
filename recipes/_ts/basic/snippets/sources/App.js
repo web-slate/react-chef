@@ -1,8 +1,7 @@
 function getSourceCode(appName, { sourceDir }) {
-  return `import React from 'react'
+  return `import React, { FC } from 'react'
 import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom'
-import { createBrowserHistory } from 'history'
-import { WithTranslation } from 'react-i18next'
+import { createBrowserHistory, History } from 'history'
 
 import Routes from './Routes'
 
@@ -26,7 +25,7 @@ const App: React.FC<AppProps> = (props) => {
   )
 }
 
-export default withTranslation()(App)
+export default withTranslation(App)
 `
 }
 

@@ -1,6 +1,10 @@
-import { useIntl, FormattedMessage } from 'react-intl'
+import { useIntl, FormattedMessage, type IntlShape } from 'react-intl'
 
+// Re-export HOC with proper name
 export { default as withTranslation } from './withI18n'
 
-export const useI18n = useIntl
-export const I18nMsg = FormattedMessage
+// Typed hook alias
+export const useI18n = (): IntlShape => useIntl()
+
+// Typed component alias
+export const I18nMsg: typeof FormattedMessage = FormattedMessage
