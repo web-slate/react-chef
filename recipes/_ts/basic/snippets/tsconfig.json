@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"],
+      "@/ui/*": ["ui/*"],
+      "@components/*": ["components/*"],
+      "@/constants/*": ["constants/*"],
+      "@/hooks/*": ["hooks/*"],
+      "@/i18n/*": ["i18n/*"],
+      "@/modules/*": ["modules/*"],
+      "@/utils/*": ["utils/*"]
+    }
+  },
+  "include": ["src"]
+}

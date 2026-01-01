@@ -24,6 +24,7 @@ module.exports = {
   babel,
   slimDev: [...webpack, ...webpackPlugins, ...webpackLoaders, ...babel],
   slimTypescriptDev: [...typeScriptTooling, ...webpack, ...webpackPlugins, ...webpackLoaders, ...babelWithTypeScript],
+  basicTypescriptDev: [...typeScriptTooling, ...webpack, ...webpackPlugins, ...webpackLoaders, ...babelWithTypeScript],
   twixtUIDev: [...webpack, ...webpackPlugins, ...webpackLoaders, ...wepPackStyleLoaders, ...babel],
   husky: 'npm i -D husky',
   eslint: 'npx install-peerdeps --dev eslint-config-airbnb',
