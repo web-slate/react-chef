@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 // Components.
-import { Header, Sidebar, ContentPanel, Footer } from '@test/components'
+import { Header, Sidebar, ContentPanel, Footer } from '@/components/'
 
 function HomePage() {
   const [openDrawer, setOpenDrawer] = useState(false);
