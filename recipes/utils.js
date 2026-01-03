@@ -72,13 +72,22 @@ const isRestrictedAppName = (projectName) => {
  return modulesList.includes(projectName)
 }
 
-const getTwixtUIIndexPath = (projectType) =>{
-  return `${__dirname}/${projectType}/snippets/sources/pages/Home/index.js`
-}
+const getTwixtUIIndexPath = (isTypeScript) => {
+  if (isTypeScript) {
+    return `${__dirname}/_ts/twixtui/snippets/sources/pages/Home/index.tsx`;
+  } else {
+    return `${__dirname}/twixtui/snippets/sources/pages/Home/index.js`;
+  }
+};
 
-const getTwixtUIHomePath = (projectType) =>{
-  return `${__dirname}/${projectType}/snippets/sources/pages/Home/Home.js`
-}
+const getTwixtUIHomePath = (isTypeScript) => {
+  if (isTypeScript) {
+    return `${__dirname}/_ts/twixtui/snippets/sources/pages/Home/Home.tsx`;
+  } else {
+    return `${__dirname}/twixtui/snippets/sources/pages/Home/Home.js`;
+  }
+};
+
 
 const getTwixtUIScripts = (projectType) =>{
   return {
