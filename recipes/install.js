@@ -285,12 +285,22 @@ const install = function (directory, appName = '') {
       const sourceSnippetDir = `${__dirname}/${sourceSubBase}${projectTypeName}/snippets/sources`;
 
       const indexSourceFileName = `index.js`;
-      const indexFileNameToCreateWithPath = !isAnyTwixtUIProject(projectType) ? `index.${componentExtension}` : getTwixtUIIndexPath(projectType, isTS);
-      createFile(indexFileNameToCreateWithPath, getDynamicSourceCode(indexSourceFileName, appName, baseConfig));
-
       const appSourceFileName = `App.js`;
-      const appFileNameToCreateWithPath = !isAnyTwixtUIProject(projectType) ? `App.${componentExtension}` : getTwixtUIHomePath(projectType, isTS);
-      createFile(appFileNameToCreateWithPath, getDynamicSourceCode(appSourceFileName, appName, baseConfig));
+
+      // ✅ Non-TwixtUI projects only The condition
+      
+      if (!isAnyTwixtUIProject(projectType)) {
+        createFile(
+          `index.${componentExtension}`,
+          getDynamicSourceCode(indexSourceFileName, appName, baseConfig)
+        );
+
+        createFile(
+          `App.${componentExtension}`,
+          getDynamicSourceCode(appSourceFileName, appName, baseConfig)
+        );
+      }
+
 
       if (baseConfig.canAdd.routes) {
         const RoutesFile = `Routes.${componentExtension}`;
