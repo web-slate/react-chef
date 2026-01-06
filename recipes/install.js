@@ -463,6 +463,7 @@ const install = function (directory, appName = '') {
         createFile('tsconfig.json', getFileContent('tsconfig.json'));
         createFile('postcss.config.mjs', getFileContent('postcss.config.mjs'));
         createFile('eslint.config.mjs', getFileContent('eslint.config.mjs'));
+        createFile('.env.local', getFileContent('.env.local'));
       }
 
 

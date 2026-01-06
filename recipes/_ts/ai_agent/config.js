@@ -19,45 +19,11 @@ const getConfig = () => ({
 });
 
 const getModulesList = () => [
-  "next",
-  "react",
-  "react-dom",
-  "ai",
-  "@ai-sdk/openai",
-  "@assistant-ui/react",
-  "@assistant-ui/react-ai-sdk",
-  "@assistant-ui/react-markdown",
-  "@radix-ui/react-avatar",
-  "@radix-ui/react-collapsible",
-  "@radix-ui/react-dialog",
-  "@radix-ui/react-separator",
-  "@radix-ui/react-slot",
-  "@radix-ui/react-tooltip",
-  "zustand",
-  "clsx",
-  "class-variance-authority",
-  "tailwind-merge",
-  "tw-animate-css",
-  "framer-motion",
-  "motion",
-  "lucide-react",
-  "remark-gfm",
+  "next"
 ];
 
 const getDevModulesList = () => [
-  "typescript",
-  "@types/react",
-  "@types/react-dom",
-  "@types/node",
-  "eslint",
-  "eslint-config-next",
-  "@eslint/eslintrc",
-  "prettier",
-  "prettier-plugin-tailwindcss",
-  "tailwindcss",
-  "@tailwindcss/postcss",
-  "postcss",
-  "autoprefixer",
+  "nextDev"
 ];
 
 module.exports = {

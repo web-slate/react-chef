@@ -20,9 +20,9 @@ import {
 } from "@/components/ui/breadcrumb";
 import { useState, useEffect } from "react";
 import { Clock } from "lucide-react";
+import { API } from "@/lib/api";
 
-const LANGCHAIN_API_URL = "http://127.0.0.1:8000/api/chat";
-const QUOTA_API_URL = "http://127.0.0.1:8000/api/quota";
+
 
 export const Assistant = () => {
   const [messages, setMessages] = useState<any[]>([]);
@@ -36,7 +36,7 @@ export const Assistant = () => {
 
   const checkQuota = async () => {
     try {
-      const response = await fetch(QUOTA_API_URL);
+      const response = await fetch(API.QUOTA);
       const data = await response.json();
       setQuotaInfo(data);
       console.log("Quota checked:", data);
@@ -96,7 +96,7 @@ export const Assistant = () => {
       console.log("Sending to API:", userText);
 
       try {
-        const response = await fetch(LANGCHAIN_API_URL, {
+        const response = await fetch(API.CHAT, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

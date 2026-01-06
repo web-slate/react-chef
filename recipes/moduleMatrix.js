@@ -7,9 +7,14 @@ const babelWithTypeScript = [...babel, '@babel/preset-typescript'];
 const typeScriptTooling = ['ts-loader','@types/react', '@types/react-dom'];
 const typeScript = ['typescript', '@babel/runtime'];
 const wepPackStyleLoaders = ['style-loader', 'css-loader']
-const next = ['next', 'react', 'react-dom'];
-const nextDev = [  'typescript',  '@types/react',  '@types/react-dom',  
-                   '@types/node',  'eslint',  'eslint-config-next',  'tailwindcss',  'postcss', 'autoprefixer'];
+const next = ['next','react','react-dom','ai','@ai-sdk/openai','@assistant-ui/react','@assistant-ui/react-ai-sdk',
+              '@assistant-ui/react-markdown','@radix-ui/react-avatar','@radix-ui/react-collapsible','@radix-ui/react-dialog',
+              '@radix-ui/react-separator','@radix-ui/react-slot','@radix-ui/react-tooltip','zustand','clsx','class-variance-authority',
+              'tailwind-merge','tw-animate-css','framer-motion','motion','lucide-react','remark-gfm'];
+const nextDev = ['typescript','@types/react','@types/react-dom','@types/node','eslint','eslint-config-next',
+                 '@eslint/eslintrc','prettier','prettier-plugin-tailwindcss','tailwindcss','@tailwindcss/postcss',
+                 'postcss','autoprefixer'];
+
 
 module.exports = {
   react: [...react],
