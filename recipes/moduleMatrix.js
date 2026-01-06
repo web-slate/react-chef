@@ -7,6 +7,9 @@ const babelWithTypeScript = [...babel, '@babel/preset-typescript'];
 const typeScriptTooling = ['ts-loader','@types/react', '@types/react-dom'];
 const typeScript = ['typescript', '@babel/runtime'];
 const wepPackStyleLoaders = ['style-loader', 'css-loader']
+const next = ['next', 'react', 'react-dom'];
+const nextDev = [  'typescript',  '@types/react',  '@types/react-dom',  
+                   '@types/node',  'eslint',  'eslint-config-next',  'tailwindcss',  'postcss', 'autoprefixer'];
 
 module.exports = {
   react: [...react],
@@ -26,6 +29,8 @@ module.exports = {
   slimTypescriptDev: [...typeScriptTooling, ...webpack, ...webpackPlugins, ...webpackLoaders, ...babelWithTypeScript],
   basicTypescriptDev: [...typeScriptTooling, ...webpack, ...webpackPlugins, ...webpackLoaders, ...babelWithTypeScript],
   twixtUIDev: [...webpack, ...webpackPlugins, ...webpackLoaders, ...wepPackStyleLoaders, ...babel],
+  next,
+  nextDev,
   husky: 'npm i -D husky',
   eslint: 'npx install-peerdeps --dev eslint-config-airbnb',
   prettier: 'npm install --save-dev --save-exact prettier && npm i -D eslint-config-prettier'

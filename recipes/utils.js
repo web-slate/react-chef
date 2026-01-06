@@ -42,23 +42,54 @@ const tryAccess = (accessPath) => {
     })
   })
 }
+const moduleSetInstall = async (option = "", moduleListArray = []) => {
+  if (!option || !Array.isArray(moduleListArray)) return;
 
-const moduleSetInstall = async (option = '', moduleListArray = []) => {
-  if (!option) {
-    return
+  const directPackages = [];
+
+  for (const item of moduleListArray) {
+    if (!item) continue;
+
+    const moduleList = moduleMatrix[item];
+
+    // 1️⃣ matrix key → array of packages
+    if (Array.isArray(moduleList)) {
+      log(
+        chalk.green.underline.bold(
+          `Installing ${moduleList.join(", ")} modules`
+        )
+      );
+      shell.exec(`npm i ${option} ${moduleList.join(" ")} --legacy-peer-deps`);
+      continue;
+    }
+
+    // 2️⃣ matrix key → shell command
+    if (typeof moduleList === "string") {
+      log(chalk.green.underline.bold(`Executing: ${moduleList}`));
+      shell.exec(moduleList);
+      continue;
+    }
+
+    // 3️⃣ direct package name (not in matrix)
+    if (typeof item === "string") {
+      directPackages.push(item);
+    }
   }
 
-  moduleListArray.forEach(moduleSet => {
-    const moduleList = moduleMatrix[moduleSet]
-    if (Array.isArray(moduleList)) {
-      log(chalk.green.underline.bold(`Installing ${moduleList.join(', ')} modules`))
-      shell.exec(`npm i ${option} ${moduleList.join(' ')}`)
-    } else {
-      log(chalk.green.underline.bold(`execute ${moduleList} modules`))
-      shell.exec(`${moduleList}`)
-    }
-  })
-}
+  // 4️⃣ install raw packages once
+  if (directPackages.length) {
+    log(
+      chalk.green.underline.bold(
+        `Installing ${directPackages.join(", ")} packages`
+      )
+    );
+    shell.exec(
+      `npm i ${option} ${directPackages.join(" ")} --legacy-peer-deps`
+    );
+  }
+};
+
+
 
 const isRestrictedAppName = (projectName) => {
   const modulesList = [];
