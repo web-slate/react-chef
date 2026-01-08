@@ -59,9 +59,6 @@ const moduleSetInstall = async (option = '', moduleListArray = []) => {
   })
 }
 
-
-
-
 const isRestrictedAppName = (projectName) => {
   const modulesList = [];
   Object.keys(moduleMatrix).forEach(item=>{
