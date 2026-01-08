@@ -19,11 +19,11 @@ const getConfig = () => ({
 });
 
 const getModulesList = () => [
-  "next"
+  "agent"
 ];
 
 const getDevModulesList = () => [
-  "nextDev"
+  "agentDev"
 ];
 
 module.exports = {
