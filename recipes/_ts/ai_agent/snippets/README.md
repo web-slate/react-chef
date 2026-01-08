@@ -1,4 +1,4 @@
-## L3 Agent Studio
+## dynamic app name
 
 This App using currently using 
 
