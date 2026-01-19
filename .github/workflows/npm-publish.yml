@@ -3,7 +3,7 @@ name: Semantic Release and Publish
 on:
   push:
     branches:
-      - main # Your main release branch
+      - release  # Triggers when code is pushed to release branch
 
 jobs:
   release:
