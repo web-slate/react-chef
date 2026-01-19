@@ -1,0 +1,40 @@
+name: Publish React Chef to npm
+
+on:
+  push:
+    branches:
+      - main # Change this to your release branch name (e.g., master, release/v*)
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x' # Use the Node.js version your project requires
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests (optional but recommended)
+        run: npm test
+
+      # This step is for if you use a CI/CD tool to automatically version your package.
+      # If you manually version your package.json, you can skip this, but you MUST
+      # ensure the version number in package.json is updated on every merge.
+      #
+      # - name: Update package.json version based on git tag/semantic release (example)
+      #   run: |
+      #     # Example command for semantic-release or other tools.
+      #     # You need a separate mechanism (like a prior action or manual commit)
+      #     # to ensure the version in package.json is bumped before publish.
+
+      - name: Publish the package to npm
+        run: npm publish --access public # Use --access public for public packages
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
