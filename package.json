@@ -7,10 +7,7 @@
   },
   "description": "Transparent React Boilerplate Apps",
   "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/web-slate/react-chef.git"
-  },
+  "repository": "web-slate/react-chef",
   "engine": {
     "node": "10",
     "npm": "5"
