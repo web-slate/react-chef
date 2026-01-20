@@ -11,14 +11,13 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
 
-    # Needed permissions for tags, releases, etc.
     permissions:
       contents: write
       issues: write
       pull-requests: write
 
     steps:
-      # 1️⃣ Checkout full repo including history and tags
+      # 1️⃣ Checkout repository with full history and tags
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -33,7 +32,10 @@ jobs:
 
       # 3️⃣ Install dependencies
       - name: Install dependencies
-        run: npm ci
+        run: |
+          npm ci
+          # 🔑 Ensure all semantic-release plugins are installed
+          npm install --save-dev @semantic-release/git @semantic-release/npm @semantic-release/github @semantic-release/release-notes-generator @semantic-release/commit-analyzer
 
       # 4️⃣ Run tests
       - name: Run tests
