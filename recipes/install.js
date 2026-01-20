@@ -28,6 +28,9 @@ const twixtUISnippet = require("./twixtui/snippets");
 const twixtUITypeScriptConfig = require("./_ts/twixtui/config");
 const twixtUITypeScriptSnippet = require("./_ts/twixtui/snippets");
 
+const agentConfig = require("./_ts/ai_agent/config");
+const agentSnippet = require("./_ts/ai_agent/snippets");
+
 const {
   log,
   error,
@@ -64,18 +67,24 @@ const install = function (directory, appName = '') {
   let getDynamicSourceCode = slimSnippet.getDynamicSourceCode;
   let baseConfig = getConfig();
 
+  let agentGetConfig = agentConfig.getConfig;
+
+
+
   const baseDirPath = `./${appName}`;
   const defaultProjectType = 'slim';
   const twixtUIProjectType = 'twixtui';
   const slimTypescriptProjectType = 'slim typescript';
   const basicTypescriptProjectType = 'basic typescript';
   const twixtUITypescriptProjectType = 'twixtui typescript';
+  const agentProjectType = 'ai agent';
   let projectType = defaultProjectType;
   const isSlimProject = (type) => type === defaultProjectType;
   const isTwixtUIProject = (type) => type === twixtUIProjectType;
   const isSlimTypeScriptProject = (type) => type === slimTypescriptProjectType;
   const isBasicTypeScriptProject = (type) => type === basicTypescriptProjectType;
   const isTwixtUITypeScriptProject = (type) => type === twixtUITypescriptProjectType;
+  const isAIAgentProject = (type) => type === agentProjectType;
   const isTypeScriptProject = (type) => isSlimTypeScriptProject(type) || isBasicTypeScriptProject(type) || isTwixtUITypeScriptProject(type);
   const isAnyTwixtUIProject = (type) =>
     isTwixtUIProject(type) || isTwixtUITypeScriptProject(type);
@@ -95,7 +104,7 @@ const install = function (directory, appName = '') {
           type: "list",
           name: "projectType",
           message: "choose your project type",
-          choices: ["Slim", "Slim TypeScript", "Basic", "Basic TypeScript", "TwixtUI", "TwixtUI TypeScript"],
+          choices: ["Slim", "Slim TypeScript", "Basic", "Basic TypeScript", "TwixtUI", "TwixtUI TypeScript", "AI Agent"],
           default: "Slim",
         },
       ]);
@@ -139,6 +148,15 @@ const install = function (directory, appName = '') {
         getWebPackConfig = twixtUITypeScriptSnippet.getWebPackConfig;
         getDynamicSourceCode = twixtUITypeScriptSnippet.getDynamicSourceCode;
         baseConfig = getConfig();
+      } else if (isAIAgentProject(projectType)) {
+        log(`AI Agent - projectType: ${projectType}`);
+        getConfig = agentConfig.getConfig;
+        getModulesList = agentConfig.getModulesList;
+        getDevModulesList = agentConfig.getDevModulesList;
+        getFileContent = agentSnippet.getFileContent;
+        getWebPackConfig = agentSnippet.getWebPackConfig;
+        getDynamicSourceCode = agentSnippet.getDynamicSourceCode;
+        baseConfig = agentGetConfig()
       } else if (!isSlimProject(projectType)) {
         log(`not slim - projectType: ${projectType}`);
         getConfig = basicConfig.getConfig;
@@ -234,22 +252,25 @@ const install = function (directory, appName = '') {
         createFile('.gitignore', getFileContent(gitIgnoreFileName));
       }
 
-      const babelConfigFileName = `.babelrc`;
-      createFile(babelConfigFileName, getFileContent(babelConfigFileName));
-
       if (isTypeScriptProjectType) {
         const tsConfigFileName = `tsconfig.json`;
         createFile(tsConfigFileName, getFileContent(tsConfigFileName));
       }
 
-      createFile(
-        'webpack.config.js',
-        getWebPackConfig(appName, {
-          ...baseConfig,
-          portNumber: answers.portNumber,
-          buildDir: answers.buildDir || baseConfig.buildDir
-        })
-      );
+      if (!isAIAgentProject(projectType)) {
+        const babelConfigFileName = `.babelrc`;
+        createFile(babelConfigFileName, getFileContent(babelConfigFileName));
+
+        createFile(
+          'webpack.config.js',
+          getWebPackConfig(appName, {
+            ...baseConfig,
+            portNumber: answers.portNumber,
+            buildDir: answers.buildDir || baseConfig.buildDir
+          })
+        );
+      }
+
 
       if (answers.eslint) {
         const eslintConfigFileName = `.eslintrc.json`;
@@ -264,8 +285,11 @@ const install = function (directory, appName = '') {
         );
       }
 
-      shell.mkdir(baseConfig.sourceDir.main);
-      shell.cd(baseConfig.sourceDir.main);
+      if (!isAIAgentProject(projectType)) {
+        shell.mkdir(baseConfig.sourceDir.main);
+        shell.cd(baseConfig.sourceDir.main);
+      }
+
 
 
       let projectTypeName;
@@ -281,15 +305,19 @@ const install = function (directory, appName = '') {
 
       const isTS = isTwixtUITypeScriptProject(projectType);
 
-      const sourceSubBase = isTypeScriptProjectType ? '_ts/' : '';
-      const sourceSnippetDir = `${__dirname}/${sourceSubBase}${projectTypeName}/snippets/sources`;
+      let sourceSnippetDir;
+
+      if (!isAIAgentProject(projectType)) {
+        const sourceSubBase = isTypeScriptProjectType ? '_ts/' : '';
+        sourceSnippetDir = `${__dirname}/${sourceSubBase}${projectTypeName}/snippets/sources`;
+      }
 
       const indexSourceFileName = `index.js`;
       const appSourceFileName = `App.js`;
 
-      // ✅ Non-TwixtUI projects only The condition
-      
-      if (!isAnyTwixtUIProject(projectType)) {
+      // ✅ Non-TwixtUI and agent projects only The condition
+
+      if (!isAnyTwixtUIProject(projectType) && !isAIAgentProject(projectType)) {
         createFile(
           `index.${componentExtension}`,
           getDynamicSourceCode(indexSourceFileName, appName, baseConfig)
@@ -316,9 +344,10 @@ const install = function (directory, appName = '') {
       }
 
 
-      if (baseConfig.canAdd.hooks) {
-        // Copy Hooks.
-        shell.cp("-Rf", `${sourceSnippetDir}/hooks`, ".");
+      if (!isAIAgentProject(projectType)) {
+        if (baseConfig.canAdd.hooks) {
+          shell.cp("-Rf", `${sourceSnippetDir}/hooks`, ".");
+        }
       }
 
       if (baseConfig.canAdd.environment) {
@@ -415,44 +444,83 @@ const install = function (directory, appName = '') {
 
 
 
-      log(chalk.green.underline.bold("Installing App dependencies..."));
-      const dependencyList = [
-        ...getModulesList(),
-        ...(answers.hookForm ? ["form"] : []),
-      ];
-      moduleSetInstall("-S", dependencyList);
 
-      log(chalk.green.underline.bold("Installing App dev dependencies..."));
-      const devDependencyList = [
-        ...getDevModulesList(),
-        ...(answers.eslint ? ["eslint"] : []),
-        ...(answers.prettier ? ["prettier"] : []),
-        ...(answers.husky ? ["husky"] : []),
-      ];
-      moduleSetInstall("-D", devDependencyList);
+      //  Ai Agent Folder
+      if (isAIAgentProject(projectType)) {
+        const agentSnippetDir = `${__dirname}/_ts/ai_agent/snippets/sources`;
 
-      shell.cd("..");
-      const packageFileContent = shell.cat("package.json")
-      const packageFileObject = JSON.parse(packageFileContent)
-      packageFileObject.main = `${baseConfig.sourceDir.main}/index.js`
-      packageFileObject.private = true
-      packageFileObject.scripts = {
-        dev: "webpack serve --mode development",
-        build: "webpack --mode production --progress",
-        ...(answers.eslint
-          ? {
-            lint: "eslint src --ext .js",
-          }
-          : {}),
-        ...(answers.prettier
-          ? {
-            prettier: "prettier --write src",
-          }
-          : {}),
-        clean: "rm -rf node_modules",
-        ...(isTwixtUIProject(projectType) ? getTwixtUIScripts() : {})
-      };
-      delete packageFileObject.main;
+        shell.cp('-Rf', `${agentSnippetDir}/app`, './app');
+
+        createFile(
+          "app/layout.tsx",
+          getDynamicSourceCode("layout.tsx", appName)
+        );
+        shell.cp('-Rf', `${agentSnippetDir}/components`, './components');
+        shell.cp('-Rf', `${agentSnippetDir}/hooks`, './hooks');
+        shell.cp('-Rf', `${agentSnippetDir}/lib`, './lib');
+
+        createFile('next.config.ts', getFileContent('next.config.ts'));
+        createFile('tsconfig.json', getFileContent('tsconfig.json'));
+        createFile('postcss.config.mjs', getFileContent('postcss.config.mjs'));
+        createFile('eslint.config.mjs', getFileContent('eslint.config.mjs'));
+        createFile('.env.local', getFileContent('.env.local'));
+      }
+
+
+
+      if (!isAIAgentProject(projectType)) {
+        log(chalk.green.bold("Installing App dependencies..."));
+        moduleSetInstall("-S", [
+          ...getModulesList(),
+          ...(answers.hookForm ? ["form"] : []),
+        ]);
+
+        log(chalk.green.bold("Installing App dev dependencies..."));
+        moduleSetInstall("-D", [
+          ...getDevModulesList(),
+          ...(answers.eslint ? ["eslint"] : []),
+          ...(answers.prettier ? ["prettier"] : []),
+          ...(answers.husky ? ["husky"] : []),
+        ]);
+      } else {
+        log(chalk.green.bold("Installing Agent dependencies..."));
+        moduleSetInstall("-S", agentConfig.getModulesList());
+
+        log(chalk.green.bold("Installing Agent dev dependencies..."));
+        moduleSetInstall("-D", agentConfig.getDevModulesList());
+      }
+
+
+
+
+      if (!isAIAgentProject(projectType)) {
+        shell.cd("..");
+      }
+      const packageFileContent = shell.cat("package.json");
+      const packageFileObject = JSON.parse(packageFileContent);
+      packageFileObject.private = true;
+
+      if (isAIAgentProject(projectType)) {
+        delete packageFileObject.main;
+        packageFileObject.scripts = {
+          dev: "next dev",
+          build: "next build",
+          start: "next start",
+          lint: "next lint",
+          clean: "rm -rf node_modules",
+        };
+      } else {
+        packageFileObject.main = `${baseConfig.sourceDir.main}/index.js`;
+        packageFileObject.scripts = {
+          dev: "webpack serve --mode development",
+          build: "webpack --mode production --progress",
+          ...(answers.eslint ? { lint: "eslint src --ext .js" } : {}),
+          ...(answers.prettier ? { prettier: "prettier --write src" } : {}),
+          clean: "rm -rf node_modules",
+          ...(isTwixtUIProject(projectType) ? getTwixtUIScripts() : {}),
+        };
+      }
+
       shell.rm("package.json");
       createFile("package.json", JSON.stringify(packageFileObject, null, 2));
     })

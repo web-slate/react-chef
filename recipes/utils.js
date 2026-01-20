@@ -42,7 +42,6 @@ const tryAccess = (accessPath) => {
     })
   })
 }
-
 const moduleSetInstall = async (option = '', moduleListArray = []) => {
   if (!option) {
     return
