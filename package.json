@@ -1,16 +1,13 @@
 {
   "name": "react-chef",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": false,
   "publishConfig": {
     "access": "public"
   },
   "description": "Transparent React Boilerplate Apps",
   "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/web-slate/react-chef.git"
-  },
+  "repository": "web-slate/react-chef",
   "engine": {
     "node": "10",
     "npm": "5"
@@ -37,5 +34,13 @@
     "commander": "^7.1.0",
     "inquirer": "^8.0.0",
     "shelljs": "^0.8.4"
+  },
+  "devDependencies": {
+    "semantic-release": "^22.0.12",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^9.2.6",
+    "@semantic-release/npm": "^11.0.2",
+    "@semantic-release/commit-analyzer": "^11.1.0",
+    "@semantic-release/release-notes-generator": "^12.1.0"
   }
 }
