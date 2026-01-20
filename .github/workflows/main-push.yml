@@ -1,4 +1,4 @@
-name: Publish to NPM
+name: On Main Branch Push
 
 on:
   push:
@@ -23,16 +23,6 @@ jobs:
 
       - name: Run tests
         run: npm test
-
-      - name: Bump version
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          npm version patch -m "chore: bump version to %s [skip ci]"
-          git push
-          git push --tags
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish to NPM
         run: npm publish
