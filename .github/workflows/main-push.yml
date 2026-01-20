@@ -1,4 +1,4 @@
-name: On Main Branch Push
+name: Main Branch Push
 
 on:
   push:
