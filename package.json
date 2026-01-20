@@ -1,6 +1,10 @@
 {
   "name": "react-chef",
   "version": "0.2.0",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "description": "Transparent React Boilerplate Apps",
   "main": "index.js",
   "repository": {

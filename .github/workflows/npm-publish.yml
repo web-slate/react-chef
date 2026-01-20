@@ -1,5 +1,6 @@
 name: Semantic Release and Publish
 
+# Trigger only when release branch gets new commits (PR merge)
 on:
   push:
     branches:
@@ -10,35 +11,41 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
 
+    # Needed permissions for tags, releases, etc.
     permissions:
       contents: write
       issues: write
       pull-requests: write
 
     steps:
+      # 1️⃣ Checkout full repo including history and tags
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
+      # 2️⃣ Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          registry-url: 'https://registry.npmjs.org'
 
+      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: npm ci
 
+      # 4️⃣ Run tests
       - name: Run tests
         run: npm test
 
-      # 🔑 Explicit npm auth (THIS FIXES YOUR ISSUE)
+      # 5️⃣ Configure npm authentication
       - name: Configure npm auth
-        run: |
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+        run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+      # 6️⃣ Run semantic-release
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
